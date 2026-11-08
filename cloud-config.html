@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nếp — Cloud Configuration Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090D16;
+      --card-bg: rgba(22, 27, 38, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.12);
+      --ink: #F8FAFC;
+      --muted: #94A3B8;
+      --accent: #10B981;
+      --accent-hover: #059669;
+      --accent-soft: rgba(16, 185, 129, 0.15);
+      --danger: #EF4444;
+      --danger-soft: rgba(239, 68, 68, 0.15);
+      --warning: #F59E0B;
+      --warning-soft: rgba(245, 158, 11, 0.15);
+      --info: #3B82F6;
+      --info-soft: rgba(59, 130, 246, 0.15);
+      --input-bg: #0F172A;
+      --input-border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #10B981, #047857);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+    }
+
+    .brand-text h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-live {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--card-hover);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Form inputs */
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #CBD5E1;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', monospace;
+      font-size: 0.88rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-input.font-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 4px;
+    }
+
+    .toggle-pass-btn:hover {
+      color: var(--ink);
+    }
+
+    /* Switches */
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #334155;
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--warning);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Action bar */
+    .action-bar {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      position: sticky;
+      bottom: 1.5rem;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      z-index: 50;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      background: #1E293B;
+      color: #E2E8F0;
+      border: 1px solid #334155;
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+      color: white;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--input-border);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--ink);
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.75rem;
+      font-size: 0.78rem;
+      border-radius: 8px;
+    }
+
+    /* Status indicators */
+    .test-result {
+      display: none;
+      margin-top: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .test-success {
+      display: block;
+      background: var(--accent-soft);
+      color: #34D399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .test-error {
+      display: block;
+      background: var(--danger-soft);
+      color: #F87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: white;
+      background: #1E293B;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transform: translateY(-50px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+    }
+
+    #toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">🌾</div>
+        <div class="brand-text">
+          <h1>Nếp Cloud Config Center</h1>
+          <p>Quản lý cấu hình Supabase, API Keys & Trạng thái từ xa</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="badge badge-live">
+          <span class="badge-dot"></span>
+          <span id="feedStatusText">Cloud Feed Online</span>
+        </div>
+        <button class="btn btn-outline btn-sm" id="btnReloadCloud" title="Tải lại từ Cloud">
+          🔄 Nạp lại từ Cloud
+        </button>
+      </div>
+    </header>
+
+    <!-- SECTION 1: Trạng thái & Bảo trì hệ thống -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">🚨 Trạng thái máy chủ & Chế độ bảo trì</h2>
+          <p class="card-subtitle">Khi bật bảo trì, App Android sẽ tự động hiển thị thông báo và ngăn gián đoạn dữ liệu.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="switch-row">
+          <div>
+            <div style="font-weight: 600; font-size: 0.9rem;">Bật chế độ bảo trì hệ thống</div>
+            <div style="font-size: 0.78rem; color: var(--muted);" id="maintenanceDesc">
+              Hệ thống đang hoạt động bình thường cho mọi người dùng
+            </div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="cfgMaintenance">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgTitle">Tiêu đề thông báo bảo trì</label>
+        <input type="text" id="cfgTitle" class="form-input" value="Bảo trì hệ thống máy chủ" placeholder="Tiêu đề hiển thị trên app">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgNotice">Nội dung thông báo chi tiết</label>
+        <input type="text" id="cfgNotice" class="form-input" value="Hệ thống đang bảo trì nâng cấp hạ tầng định kỳ. Vui lòng quay lại sau ít phút." placeholder="Nội dung thông báo cho người dùng">
+      </div>
+    </div>
+
+    <!-- SECTION 2: Supabase Cloud Database -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">⚡ Supabase Backend Cloud</h2>
+          <p class="card-subtitle">Thay đổi dự án Supabase mà không cần phải cài lại hay build lại APK.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btnTestSupabase">
+          🧪 Test kết nối
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgSupabaseUrl">Supabase Project URL</label>
+        <input type="text" id="cfgSupabaseUrl" class="form-input font-mono" placeholder="https://xxxxxxxxxxxxxxxxxxxx.supabase.co">
+        <div class="form-hint">Lấy tại: Supabase Dashboard &gt; Project Settings &gt; API &gt; Project URL</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgSupabaseAnonKey">Supabase Anon Key (Public Key an toàn cho Mobile & Web)</label>
+        <div class="input-wrapper">
+          <input type="password" id="cfgSupabaseAnonKey" class="form-input font-mono" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+          <button type="button" class="toggle-pass-btn" data-target="cfgSupabaseAnonKey">Hiện</button>
+        </div>
+        <div class="form-hint">Khóa công khai dùng để xác thực các request từ ứng dụng Android và Admin Web</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgSupabaseServiceKey">Supabase Service Role Key (Khóa bí mật - Dành riêng cho Admin)</label>
+        <div class="input-wrapper">
+          <input type="password" id="cfgSupabaseServiceKey" class="form-input font-mono" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+          <button type="button" class="toggle-pass-btn" data-target="cfgSupabaseServiceKey">Hiện</button>
+        </div>
+        <div class="form-hint">Dùng cho Web Admin Portal để bypass RLS quản lý danh sách tài khoản & khôi phục mật khẩu</div>
+      </div>
+
+      <div id="resSupabase" class="test-result"></div>
+    </div>
+
+    <!-- SECTION 3: Google Gemini AI -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">🤖 Trợ lý tài chính AI & Đọc hóa đơn OCR</h2>
+          <p class="card-subtitle">Cấu hình khóa Google Gemini API cho tính năng quét hóa đơn và chatbot tài chính.</p>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="btnTestGemini">
+          🧪 Test gọi Gemini
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgGeminiKey">Google Gemini API Key</label>
+        <div class="input-wrapper">
+          <input type="password" id="cfgGeminiKey" class="form-input font-mono" placeholder="AQ.Ab8RN6K9GpP-3_QAm2mTmJHeZSzrO4IfJpQ6zTNN-DyGgTxoEg">
+          <button type="button" class="toggle-pass-btn" data-target="cfgGeminiKey">Hiện</button>
+        </div>
+        <div class="form-hint">Lấy miễn phí tại: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #60A5FA;">Google AI Studio</a>. App sẽ nhận Key mới ngay lập tức.</div>
+      </div>
+
+      <div id="resGemini" class="test-result"></div>
+    </div>
+
+    <!-- SECTION 4: Quản trị viên Admin -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">🛡️ Tài khoản quản trị Web Admin</h2>
+          <p class="card-subtitle">Tài khoản đăng nhập trang quản trị nội bộ (npm run admin:serve).</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label class="form-label" for="cfgAdminEmail">Email Quản Trị</label>
+          <input type="email" id="cfgAdminEmail" class="form-input" placeholder="admin@qlct.local">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="cfgAdminPassword">Mật khẩu</label>
+          <div class="input-wrapper">
+            <input type="password" id="cfgAdminPassword" class="form-input" placeholder="••••••••">
+            <button type="button" class="toggle-pass-btn" data-target="cfgAdminPassword">Hiện</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: Thiết lập đồng bộ Cloud Gist -->
+    <div class="card" style="border-color: rgba(59, 130, 246, 0.3);">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title" style="color: #93C5FD;">☁️ Cài đặt đồng bộ GitHub Gist Cloud</h2>
+          <p class="card-subtitle">Đồng bộ cấu hình trực tiếp lên Cloud Feed để mọi thiết bị điện thoại tự động tải về.</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgGistId">GitHub Gist ID</label>
+        <input type="text" id="cfgGistId" class="form-input font-mono" value="8a8b8b98816d189624d875bb77e90d15">
+        <div class="form-hint">Feed URL: <code style="color: #38BDF8;" id="feedUrlDisplay">https://gist.githubusercontent.com/linhdo-dql/8a8b8b98816d189624d875bb77e90d15/raw/gistfile1.txt</code></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cfgGithubToken">GitHub Personal Access Token (PAT) — <em>Tùy chọn để lưu 1-Click</em></label>
+        <div class="input-wrapper">
+          <input type="password" id="cfgGithubToken" class="form-input font-mono" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx (Quyền gist)">
+          <button type="button" class="toggle-pass-btn" data-target="cfgGithubToken">Hiện</button>
+        </div>
+        <div class="form-hint">Nếu nhập Token, bạn có thể bấm nút "Lưu trực tiếp lên GitHub Cloud". Hoặc bạn có thể bấm "Sao chép JSON" để dán thủ công vào gist.github.com.</div>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="btn btn-primary" id="btnSaveCloud">
+        ☁️ Lưu trực tiếp lên Cloud (Gist)
+      </button>
+      <button class="btn btn-secondary" id="btnSaveLocal">
+        💾 Lưu vào local.properties
+      </button>
+      <button class="btn btn-outline" id="btnCopyJson">
+        📋 Sao chép mã JSON
+      </button>
+    </div>
+  </div>
+
+  <div id="toast">Thông báo</div>
+
+  <script>
+    // State
+    const GIST_RAW_URL = "https://gist.githubusercontent.com/linhdo-dql/8a8b8b98816d189624d875bb77e90d15/raw/gistfile1.txt";
+    const DEFAULT_GIST_ID = "8a8b8b98816d189624d875bb77e90d15";
+
+    // Elements
+    const cfgMaintenance = document.getElementById("cfgMaintenance");
+    const maintenanceDesc = document.getElementById("maintenanceDesc");
+    const cfgTitle = document.getElementById("cfgTitle");
+    const cfgNotice = document.getElementById("cfgNotice");
+    const cfgSupabaseUrl = document.getElementById("cfgSupabaseUrl");
+    const cfgSupabaseAnonKey = document.getElementById("cfgSupabaseAnonKey");
+    const cfgSupabaseServiceKey = document.getElementById("cfgSupabaseServiceKey");
+    const cfgGeminiKey = document.getElementById("cfgGeminiKey");
+    const cfgAdminEmail = document.getElementById("cfgAdminEmail");
+    const cfgAdminPassword = document.getElementById("cfgAdminPassword");
+    const cfgGistId = document.getElementById("cfgGistId");
+    const cfgGithubToken = document.getElementById("cfgGithubToken");
+
+    function showToast(msg, type = "success") {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.style.background = type === "success" ? "#065F46" : type === "error" ? "#7F1D1D" : "#1E293B";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3500);
+    }
+
+    // Toggle password visibility
+    document.querySelectorAll(".toggle-pass-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = document.getElementById(btn.getAttribute("data-target"));
+        if (!target) return;
+        if (target.type === "password") {
+          target.type = "text";
+          btn.textContent = "Ẩn";
+        } else {
+          target.type = "password";
+          btn.textContent = "Hiện";
+        }
+      });
+    });
+
+    // Maintenance switch change listener
+    cfgMaintenance.addEventListener("change", () => {
+      maintenanceDesc.textContent = cfgMaintenance.checked
+        ? "⚠️ ĐANG BẬT BẢO TRÌ — Người dùng mở app sẽ nhận thông báo bảo trì"
+        : "Hệ thống đang hoạt động bình thường cho mọi người dùng";
+      maintenanceDesc.style.color = cfgMaintenance.checked ? "#F59E0B" : "var(--muted)";
+    });
+
+    // Generate JSON payload
+    function getFullConfigJson() {
+      return {
+        status: cfgMaintenance.checked ? "maintenance" : "online",
+        maintenance: cfgMaintenance.checked,
+        notice: cfgNotice.value.trim(),
+        title: cfgTitle.value.trim(),
+        supabase_url: cfgSupabaseUrl.value.trim(),
+        supabase_anon_key: cfgSupabaseAnonKey.value.trim(),
+        supabase_service_role_key: cfgSupabaseServiceKey.value.trim(),
+        ai_api_key: cfgGeminiKey.value.trim(),
+        gemini_api_key: cfgGeminiKey.value.trim(),
+        admin_email: cfgAdminEmail.value.trim(),
+        admin_password: cfgAdminPassword.value.trim(),
+        updated_at: new Date().toISOString()
+      };
+    }
+
+    // Populate inputs from object
+    function fillForm(data) {
+      if (!data) return;
+      if (data.maintenance !== undefined) {
+        cfgMaintenance.checked = Boolean(data.maintenance);
+        cfgMaintenance.dispatchEvent(new Event("change"));
+      }
+      if (data.status === "maintenance" || data.status === "offline") {
+        cfgMaintenance.checked = true;
+        cfgMaintenance.dispatchEvent(new Event("change"));
+      }
+      if (data.title) cfgTitle.value = data.title;
+      if (data.notice) cfgNotice.value = data.notice;
+      if (data.supabase_url) cfgSupabaseUrl.value = data.supabase_url;
+      if (data.supabase_anon_key) cfgSupabaseAnonKey.value = data.supabase_anon_key;
+      if (data.supabase_service_role_key) cfgSupabaseServiceKey.value = data.supabase_service_role_key;
+      if (data.ai_api_key || data.gemini_api_key) cfgGeminiKey.value = data.ai_api_key || data.gemini_api_key;
+      if (data.admin_email) cfgAdminEmail.value = data.admin_email;
+      if (data.admin_password) cfgAdminPassword.value = data.admin_password;
+    }
+
+    // Load initial config from Server or Cloud
+    async function loadConfig() {
+      // 1. Thử tải từ server local trước (nếu đang chạy server.mjs)
+      try {
+        const res = await fetch("/api/cloud-config");
+        if (res.ok) {
+          const data = await res.json();
+          fillForm(data);
+          showToast("Đã nạp cấu hình từ máy chủ nội bộ");
+          return;
+        }
+      } catch (_) {}
+
+      // 2. Tải trực tiếp từ GitHub Gist Cloud
+      try {
+        const gistRes = await fetch(GIST_RAW_URL + "?t=" + Date.now());
+        if (gistRes.ok) {
+          const data = await gistRes.json();
+          fillForm(data);
+          showToast("Đã tải cấu hình mới nhất từ Cloud Gist");
+        }
+      } catch (err) {
+        console.warn("Không thể tải trực tiếp từ Gist:", err);
+      }
+    }
+
+    // Copy JSON
+    document.getElementById("btnCopyJson").addEventListener("click", () => {
+      const json = JSON.stringify(getFullConfigJson(), null, 2);
+      navigator.clipboard.writeText(json).then(() => {
+        showToast("Đã sao chép mã JSON vào Clipboard!");
+      }).catch(() => {
+        prompt("Sao chép mã JSON dưới đây:", json);
+      });
+    });
+
+    // Save to Local.properties (via server.mjs)
+    document.getElementById("btnSaveLocal").addEventListener("click", async () => {
+      const data = getFullConfigJson();
+      try {
+        const res = await fetch("/api/cloud-config", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          showToast("Đã lưu thành công vào local.properties!");
+        } else {
+          const err = await res.json();
+          showToast("Lỗi: " + (err.error || "Không thể ghi file"), "error");
+        }
+      } catch (e) {
+        // Fallback tải file xuống nếu đang mở dưới dạng file://
+        const blob = new Blob([
+          `SUPABASE_URL=${data.supabase_url}\n` +
+          `SUPABASE_ANON_KEY=${data.supabase_anon_key}\n` +
+          `SUPABASE_SERVICE_ROLE_KEY=${data.supabase_service_role_key}\n` +
+          `GEMINI_API_KEY=${data.gemini_api_key}\n` +
+          `ADMIN_EMAIL=${data.admin_email}\n` +
+          `ADMIN_PASSWORD=${data.admin_password}\n`
+        ], { type: "text/plain;charset=utf-8" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "local.properties";
+        a.click();
+        showToast("Đã tải xuống file local.properties mới!");
+      }
+    });
+
+    // Save to Cloud (GitHub Gist)
+    document.getElementById("btnSaveCloud").addEventListener("click", async () => {
+      const gistId = cfgGistId.value.trim() || DEFAULT_GIST_ID;
+      const token = cfgGithubToken.value.trim() || localStorage.getItem("gh_pat") || "";
+      const configJson = getFullConfigJson();
+      const content = JSON.stringify(configJson, null, 2);
+
+      // Nếu có token, lưu vào localStorage để tiện dùng lần sau
+      if (cfgGithubToken.value.trim()) {
+        localStorage.setItem("gh_pat", cfgGithubToken.value.trim());
+      }
+
+      // Thử gửi qua server backend nếu đang chạy local server
+      try {
+        const srvRes = await fetch("/api/cloud-config", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...configJson, githubToken: token, gistId })
+        });
+        if (srvRes.ok) {
+          const srvData = await srvRes.json();
+          if (srvData.gistUpdated) {
+            showToast("ĐÃ ĐỒNG BỘ LÊN CLOUD GITHUB GIST THÀNH CÔNG! 🎉");
+            return;
+          }
+        }
+      } catch (_) {}
+
+      // Nếu không có backend hoặc backend chưa có token, gọi trực tiếp GitHub API
+      if (!token) {
+        const enterToken = prompt(
+          "Để lưu tự động lên GitHub Gist, vui lòng dán GitHub Personal Access Token (PAT có quyền gist):\n" +
+          "(Hoặc bấm Hủy để sao chép JSON và dán thủ công lên gist.github.com)"
+        );
+        if (enterToken) {
+          cfgGithubToken.value = enterToken.trim();
+          localStorage.setItem("gh_pat", enterToken.trim());
+          document.getElementById("btnSaveCloud").click();
+          return;
+        } else {
+          document.getElementById("btnCopyJson").click();
+          window.open(`https://gist.github.com/linhdo-dql/${gistId}`, "_blank");
+          return;
+        }
+      }
+
+      // Gọi GitHub API PATCH
+      try {
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          method: "PATCH",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            description: "Nếp App - Cloud Configuration Feed",
+            files: {
+              "gistfile1.txt": { content: content }
+            }
+          })
+        });
+
+        if (res.ok) {
+          showToast("ĐÃ CẬP NHẬT LÊN GITHUB GIST THÀNH CÔNG! 🎉 App sẽ nhận cấu hình này!");
+        } else {
+          const err = await res.json();
+          showToast("Lỗi GitHub: " + (err.message || "Không thể cập nhật"), "error");
+        }
+      } catch (err) {
+        showToast("Lỗi kết nối GitHub: " + err.message, "error");
+      }
+    });
+
+    // Test Supabase
+    document.getElementById("btnTestSupabase").addEventListener("click", async () => {
+      const url = cfgSupabaseUrl.value.trim().replace(/\/$/, "");
+      const key = cfgSupabaseAnonKey.value.trim();
+      const resEl = document.getElementById("resSupabase");
+
+      if (!url || !key) {
+        resEl.className = "test-result test-error";
+        resEl.textContent = "Vui lòng nhập Supabase URL và Anon Key trước khi test.";
+        return;
+      }
+
+      resEl.className = "test-result";
+      resEl.style.display = "block";
+      resEl.textContent = "Đang kiểm tra kết nối tới Supabase...";
+
+      try {
+        const startTime = Date.now();
+        const res = await fetch(`${url}/rest/v1/`, {
+          headers: { 'apikey': key, 'Authorization': `Bearer ${key}` }
+        });
+        const duration = Date.now() - startTime;
+        if (res.ok || res.status === 200) {
+          resEl.className = "test-result test-success";
+          resEl.innerHTML = `✅ Kết nối Supabase thành công! (${duration}ms) — Database sẵn sàng hoạt động.`;
+        } else {
+          resEl.className = "test-result test-error";
+          resEl.textContent = `❌ Supabase phản hồi mã lỗi HTTP ${res.status}: ${res.statusText}`;
+        }
+      } catch (err) {
+        resEl.className = "test-result test-error";
+        resEl.textContent = `❌ Không thể kết nối tới Supabase: ${err.message}`;
+      }
+    });
+
+    // Test Gemini
+    document.getElementById("btnTestGemini").addEventListener("click", async () => {
+      const key = cfgGeminiKey.value.trim();
+      const resEl = document.getElementById("resGemini");
+
+      if (!key) {
+        resEl.className = "test-result test-error";
+        resEl.textContent = "Vui lòng nhập Gemini API Key trước khi test.";
+        return;
+      }
+
+      resEl.className = "test-result";
+      resEl.style.display = "block";
+      resEl.textContent = "Đang gửi truy vấn thử nghiệm tới Google Gemini 3.5 Flash Lite...";
+
+      try {
+        const startTime = Date.now();
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${key}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: "Trả lời ngắn gọn: Bạn là ai?" }] }]
+          })
+        });
+        const duration = Date.now() - startTime;
+        const data = await res.json();
+        if (res.ok && data.candidates && data.candidates.length > 0) {
+          const ans = data.candidates[0].content.parts[0].text.trim();
+          resEl.className = "test-result test-success";
+          resEl.innerHTML = `✅ Gemini phản hồi cực nhanh (${duration}ms): <em>"${ans.slice(0, 70)}..."</em>`;
+        } else {
+          const errMsg = data.error ? data.error.message : "Key không hợp lệ hoặc hết quota";
+          resEl.className = "test-result test-error";
+          resEl.textContent = `❌ Lỗi Gemini: ${errMsg}`;
+        }
+      } catch (err) {
+        resEl.className = "test-result test-error";
+        resEl.textContent = `❌ Không thể gọi Gemini API: ${err.message}`;
+      }
+    });
+
+    // Reload from cloud button
+    document.getElementById("btnReloadCloud").addEventListener("click", loadConfig);
+
+    // Initial load
+    if (localStorage.getItem("gh_pat")) {
+      cfgGithubToken.value = localStorage.getItem("gh_pat");
+    }
+    loadConfig();
+  </script>
+</body>
+</html>
+
