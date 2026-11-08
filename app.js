@@ -1,17 +1,8 @@
-/**
- * NÉP ADMIN PORTAL — TỰ ĐỘNG ĐĂNG NHẬP ADMIN VÀ KẾT NỐI DATABASE THẬT
- * Tài khoản Admin: dqlgamer@gmail.com
- * Supabase: https://wxemiabmltbukguysdxf.supabase.co
- */
-
-// ============================================================================
-// 1. TÀI KHOẢN ADMIN & CẤU HÌNH HỆ THỐNG
-// ============================================================================
 
 const runtimeCfg = (typeof window !== "undefined" && window.RUNTIME_CONFIG) ? window.RUNTIME_CONFIG : {};
 
 const ADMIN_CREDENTIALS = {
-  email: runtimeCfg.adminEmail || "dqlgamer@gmail.com",
+  email: runtimeCfg.adminEmail || "lansieunhann04@gmail.com",
   password: runtimeCfg.adminPassword || "123456"
 };
 
@@ -38,9 +29,9 @@ function isUserAdmin(user) {
 
 const AppState = {
   config: {
-    supabaseUrl: runtimeCfg.supabaseUrl || "https://wxemiabmltbukguysdxf.supabase.co",
-    supabaseAnonKey: runtimeCfg.supabaseAnonKey || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4ZW1pYWJtbHRidWtndXlzZHhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI0NjI5MjgsImV4cCI6MjEwODAzODkyOH0.F_QCkbg4n2ba7-exXTL-SFQv-kTZ8ElVDaT-ibo1B1o",
-    projectRef: runtimeCfg.projectRef || "wxemiabmltbukguysdxf"
+    supabaseUrl: runtimeCfg.supabaseUrl || "https://mmzdsvbvfeydouxhnwjl.supabase.co",
+    supabaseAnonKey: runtimeCfg.supabaseAnonKey || "sb_publishable_RoYn6HVy9X9VGfxXlbzIxA_6VgztT_H",
+    projectRef: runtimeCfg.projectRef || "mmzdsvbvfeydouxhnwjl"
   },
   session: null,        // { accessToken, userId, email, userMetadata }
   categoriesMap: {},    // Map category_id -> category_name
@@ -97,8 +88,9 @@ function escapeHtml(str) {
 // 3. TỰ ĐỘNG ĐĂNG NHẬP ADMIN BẰNG DQLGAMER@GMAIL.COM
 // ============================================================================
 
-async function autoLoginAdmin() {
-  updateLoadingStatus(true, "Đang đăng nhập tài khoản Admin dqlgamer@gmail.com...");
+async function autoLoginAdmin(customCreds = null) {
+  const creds = customCreds || ADMIN_CREDENTIALS;
+  updateLoadingStatus(true, `Đang đăng nhập tài khoản ${creds.email}...`);
 
   try {
     const url = AppState.config.supabaseUrl.replace(/\/$/, '') + '/auth/v1/token?grant_type=password';
@@ -108,12 +100,13 @@ async function autoLoginAdmin() {
         'apikey': AppState.config.supabaseAnonKey,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(ADMIN_CREDENTIALS)
+      body: JSON.stringify(creds)
     });
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error_description || data.msg || "Lỗi đăng nhập admin");
+      const errMsg = data.error_description || data.msg || data.message || "Lỗi đăng nhập admin";
+      throw new Error(errMsg);
     }
 
     AppState.session = {
@@ -124,11 +117,14 @@ async function autoLoginAdmin() {
     };
     localStorage.setItem("nep_admin_session", JSON.stringify(AppState.session));
 
+    ADMIN_CREDENTIALS.email = creds.email;
+    ADMIN_CREDENTIALS.password = creds.password;
+
     updateAuthHeaderUI();
-    return true;
+    return { success: true, email: data.user.email };
   } catch (err) {
-    console.warn("Lỗi tự động đăng nhập Admin:", err.message);
-    return false;
+    console.warn("Lỗi đăng nhập Admin:", err.message);
+    return { success: false, error: err.message };
   }
 }
 
@@ -1430,13 +1426,33 @@ function setupEventListeners() {
     }
 
     try {
-      showToast("Đang xác thực...", "info");
-      ADMIN_CREDENTIALS.email = email;
-      ADMIN_CREDENTIALS.password = pass;
-      await autoLoginAdmin();
+      showToast("Đang xác thực với máy chủ...", "info");
+      const res = await autoLoginAdmin({ email, password: pass });
+      if (!res.success) {
+        showToast("Đăng nhập thất bại: " + (res.error || "Email hoặc mật khẩu chưa đúng trên Supabase"), "danger");
+        return;
+      }
+
+      // Lưu tài khoản mới vào server & local.properties để không bị reset khi F5
+      try {
+        await fetch('/api/admin/credentials', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ adminEmail: email, adminPassword: pass })
+        });
+      } catch (_) {}
+
+      // Thêm vào danh sách Admin cục bộ
+      let adminList = getAdminEmailsList();
+      if (!adminList.includes(email.toLowerCase())) {
+        adminList.push(email.toLowerCase());
+        localStorage.setItem("nep_admin_emails", JSON.stringify(adminList));
+      }
+
+      updateAuthHeaderUI();
       closeAllModals();
       await loadRealDataFromDatabase();
-      showToast("Đăng nhập thành công!", "success");
+      showToast("Đăng nhập thành công với tài khoản " + email, "success");
     } catch (err) {
       showToast(err.message, "danger");
     }
