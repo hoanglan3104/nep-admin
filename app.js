@@ -1,9 +1,18 @@
+/**
+ * NÉP ADMIN PORTAL — TỰ ĐỘNG ĐĂNG NHẬP ADMIN VÀ KẾT NỐI DATABASE THẬT
+ * Tài khoản Admin: dqlgamer@gmail.com
+ * Supabase: https://wxemiabmltbukguysdxf.supabase.co
+ */
+
+// ============================================================================
+// 1. TÀI KHOẢN ADMIN & CẤU HÌNH HỆ THỐNG
+// ============================================================================
 
 const runtimeCfg = (typeof window !== "undefined" && window.RUNTIME_CONFIG) ? window.RUNTIME_CONFIG : {};
 
 const ADMIN_CREDENTIALS = {
-  email: runtimeCfg.adminEmail || "lansieunhann04@gmail.com",
-  password: runtimeCfg.adminPassword || "123456"
+  email: localStorage.getItem("nep_admin_email") || runtimeCfg.adminEmail || "lansieunhann04@gmail.com",
+  password: localStorage.getItem("nep_admin_password") || runtimeCfg.adminPassword || "123456"
 };
 
 function getAdminEmailsList() {
@@ -137,8 +146,12 @@ async function syncConfigFromSource() {
         AppState.config.supabaseUrl = data.supabaseUrl;
         AppState.config.supabaseAnonKey = data.supabaseAnonKey;
         AppState.config.projectRef = data.projectRef || (data.supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]);
-        if (data.adminEmail) ADMIN_CREDENTIALS.email = data.adminEmail;
-        if (data.adminPassword) ADMIN_CREDENTIALS.password = data.adminPassword;
+        if (!localStorage.getItem("nep_admin_email") && data.adminEmail) {
+          ADMIN_CREDENTIALS.email = data.adminEmail;
+        }
+        if (!localStorage.getItem("nep_admin_password") && data.adminPassword) {
+          ADMIN_CREDENTIALS.password = data.adminPassword;
+        }
         console.log("[Config] Đã đồng bộ cấu hình từ server (/api/config):", AppState.config.projectRef);
         return;
       }
@@ -150,8 +163,12 @@ async function syncConfigFromSource() {
     AppState.config.supabaseUrl = cfg.supabaseUrl;
     AppState.config.supabaseAnonKey = cfg.supabaseAnonKey;
     AppState.config.projectRef = cfg.projectRef || (cfg.supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]);
-    if (cfg.adminEmail) ADMIN_CREDENTIALS.email = cfg.adminEmail;
-    if (cfg.adminPassword) ADMIN_CREDENTIALS.password = cfg.adminPassword;
+    if (!localStorage.getItem("nep_admin_email") && cfg.adminEmail) {
+      ADMIN_CREDENTIALS.email = cfg.adminEmail;
+    }
+    if (!localStorage.getItem("nep_admin_password") && cfg.adminPassword) {
+      ADMIN_CREDENTIALS.password = cfg.adminPassword;
+    }
     console.log("[Config] Đã nạp cấu hình từ runtime-config.js:", AppState.config.projectRef);
   }
 }
@@ -1433,7 +1450,9 @@ function setupEventListeners() {
         return;
       }
 
-      // Lưu tài khoản mới vào server & local.properties để không bị reset khi F5
+      // Lưu tài khoản mới vào localStorage và server để không bị reset khi F5 trên Vercel
+      localStorage.setItem("nep_admin_email", email);
+      localStorage.setItem("nep_admin_password", pass);
       try {
         await fetch('/api/admin/credentials', {
           method: 'POST',
@@ -1544,6 +1563,8 @@ function setupEventListeners() {
 
       ADMIN_CREDENTIALS.email = newEmail;
       if (newPass) ADMIN_CREDENTIALS.password = newPass;
+      localStorage.setItem("nep_admin_email", newEmail);
+      if (newPass) localStorage.setItem("nep_admin_password", newPass);
 
       // Cập nhật danh sách Admin
       let adminList = getAdminEmailsList();
@@ -1559,6 +1580,8 @@ function setupEventListeners() {
     } catch (err) {
       ADMIN_CREDENTIALS.email = newEmail;
       if (newPass) ADMIN_CREDENTIALS.password = newPass;
+      localStorage.setItem("nep_admin_email", newEmail);
+      if (newPass) localStorage.setItem("nep_admin_password", newPass);
       updateAuthHeaderUI();
       showToast("Đã cập nhật quyền Admin trên trình duyệt!", "success");
     }

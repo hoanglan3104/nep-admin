@@ -15,1078 +15,1078 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-layout">
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="brand">
-          <div class="brand-logo">
-            <i data-lucide="wallet-cards"></i>
-          </div>
-          <div class="brand-info">
-            <h1 class="brand-name">Nếp Admin</h1>
-            <span class="brand-badge">PRO v2.5</span>
-          </div>
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-logo">
+          <i data-lucide="wallet-cards"></i>
         </div>
-        <button class="btn-icon mobile-close-sidebar" id="closeSidebarBtn" aria-label="Đóng menu">
-          <i data-lucide="x"></i>
+        <div class="brand-info">
+          <h1 class="brand-name">Nếp Admin</h1>
+          <span class="brand-badge">PRO v2.5</span>
+        </div>
+      </div>
+      <button class="btn-icon mobile-close-sidebar" id="closeSidebarBtn" aria-label="Đóng menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">HỆ THỐNG</div>
+      <a href="#overview" class="nav-item active" data-tab="overview">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Tổng quan</span>
+      </a>
+      <a href="#users" class="nav-item" data-tab="users">
+        <i data-lucide="users"></i>
+        <span>Người dùng</span>
+        <span class="nav-badge" id="navUserBadge">12.8k</span>
+      </a>
+      <a href="#analytics" class="nav-item" data-tab="analytics">
+        <i data-lucide="trending-up"></i>
+        <span>Phân tích & Tăng trưởng</span>
+      </a>
+      <a href="#ai-monitoring" class="nav-item" data-tab="ai-monitoring">
+        <i data-lucide="bot"></i>
+        <span>AI Chatbot & OCR</span>
+        <span class="nav-pill">Mới</span>
+      </a>
+
+      <div class="nav-section-label">HOẠT ĐỘNG</div>
+      <a href="#transactions" class="nav-item" data-tab="transactions">
+        <i data-lucide="receipt"></i>
+        <span>Sổ & Giao dịch</span>
+      </a>
+      <a href="#audit-log" class="nav-item" data-tab="audit-log">
+        <i data-lucide="shield-alert"></i>
+        <span>Nhật ký bảo mật</span>
+      </a>
+
+      <div class="nav-section-label">CÀI ĐẶT & CLOUD</div>
+      <a href="cloud-config.html" class="nav-item" style="color: #60a5fa;">
+        <i data-lucide="cloud-cog"></i>
+        <span>Cấu hình Cloud & API</span>
+        <span class="nav-pill" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: bold;">1-Click</span>
+      </a>
+      <a href="#settings" class="nav-item" data-tab="settings">
+        <i data-lucide="settings"></i>
+        <span>Cấu hình Database</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="system-status-indicator">
+        <span class="status-dot pulse"></span>
+        <div class="status-texts">
+          <span class="status-label">Hệ thống Nếp API</span>
+          <span class="status-val">Hoạt động bình thường</span>
+        </div>
+      </div>
+      <div class="admin-profile-compact">
+        <div class="admin-avatar">
+          <span>AD</span>
+        </div>
+        <div class="admin-details">
+          <span class="admin-name">Quản Trị Viên</span>
+          <span class="admin-role">Super Admin</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-wrapper">
+    <!-- TOP NAVIGATION BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn-icon mobile-menu-toggle" id="openSidebarBtn" aria-label="Mở menu">
+          <i data-lucide="menu"></i>
         </button>
-      </div>
-
-      <nav class="sidebar-nav">
-        <div class="nav-section-label">HỆ THỐNG</div>
-        <a href="#overview" class="nav-item active" data-tab="overview">
-          <i data-lucide="layout-dashboard"></i>
-          <span>Tổng quan</span>
-        </a>
-        <a href="#users" class="nav-item" data-tab="users">
-          <i data-lucide="users"></i>
-          <span>Người dùng</span>
-          <span class="nav-badge" id="navUserBadge">12.8k</span>
-        </a>
-        <a href="#analytics" class="nav-item" data-tab="analytics">
-          <i data-lucide="trending-up"></i>
-          <span>Phân tích & Tăng trưởng</span>
-        </a>
-        <a href="#ai-monitoring" class="nav-item" data-tab="ai-monitoring">
-          <i data-lucide="bot"></i>
-          <span>AI Chatbot & OCR</span>
-          <span class="nav-pill">Mới</span>
-        </a>
-
-        <div class="nav-section-label">HOẠT ĐỘNG</div>
-        <a href="#transactions" class="nav-item" data-tab="transactions">
-          <i data-lucide="receipt"></i>
-          <span>Sổ & Giao dịch</span>
-        </a>
-        <a href="#audit-log" class="nav-item" data-tab="audit-log">
-          <i data-lucide="shield-alert"></i>
-          <span>Nhật ký bảo mật</span>
-        </a>
-
-        <div class="nav-section-label">CÀI ĐẶT & CLOUD</div>
-        <a href="cloud-config.html" class="nav-item" style="color: #60a5fa;">
-          <i data-lucide="cloud-cog"></i>
-          <span>Cấu hình Cloud & API</span>
-          <span class="nav-pill" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: bold;">1-Click</span>
-        </a>
-        <a href="#settings" class="nav-item" data-tab="settings">
-          <i data-lucide="settings"></i>
-          <span>Cấu hình Database</span>
-        </a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="system-status-indicator">
-          <span class="status-dot pulse"></span>
-          <div class="status-texts">
-            <span class="status-label">Hệ thống Nếp API</span>
-            <span class="status-val">Hoạt động bình thường</span>
-          </div>
-        </div>
-        <div class="admin-profile-compact">
-          <div class="admin-avatar">
-            <span>AD</span>
-          </div>
-          <div class="admin-details">
-            <span class="admin-name">Quản Trị Viên</span>
-            <span class="admin-role">Super Admin</span>
-          </div>
+        <div class="breadcrumbs">
+          <span class="breadcrumb-root">Hệ thống</span>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current" id="currentSectionTitle">Tổng quan số liệu</span>
         </div>
       </div>
-    </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-wrapper">
-      <!-- TOP NAVIGATION BAR -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <button class="btn-icon mobile-menu-toggle" id="openSidebarBtn" aria-label="Mở menu">
-            <i data-lucide="menu"></i>
-          </button>
-          <div class="breadcrumbs">
-            <span class="breadcrumb-root">Hệ thống</span>
-            <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current" id="currentSectionTitle">Tổng quan số liệu</span>
-          </div>
+      <div class="topbar-right">
+        <!-- Live Time Range Selector -->
+        <div class="date-filter-wrapper">
+          <i data-lucide="calendar"></i>
+          <select id="timeRangeSelect" class="form-select time-range-select" aria-label="Khoảng thời gian thống kê">
+            <option value="all">Toàn thời gian (Năm 2026)</option>
+            <option value="month" selected>Tháng này (Tháng 10/2026)</option>
+            <option value="quarter">Quý 3/2026</option>
+            <option value="year">Năm 2025 - 2026</option>
+          </select>
         </div>
 
-        <div class="topbar-right">
-          <!-- Live Time Range Selector -->
-          <div class="date-filter-wrapper">
-            <i data-lucide="calendar"></i>
-            <select id="timeRangeSelect" class="form-select time-range-select" aria-label="Khoảng thời gian thống kê">
-              <option value="all">Toàn thời gian (Năm 2026)</option>
-              <option value="month" selected>Tháng này (Tháng 10/2026)</option>
-              <option value="quarter">Quý 3/2026</option>
-              <option value="year">Năm 2025 - 2026</option>
-            </select>
+        <!-- Quick Refresh Button -->
+        <button class="btn btn-secondary btn-icon-text" id="refreshDataBtn" title="Làm mới số liệu">
+          <i data-lucide="rotate-cw"></i>
+          <span class="hide-mobile">Đồng bộ</span>
+        </button>
+
+        <!-- Login / Auth Button -->
+        <button class="btn btn-primary btn-icon-text" id="openLoginModalBtn" title="Đăng nhập tài khoản Supabase">
+          <i data-lucide="log-in" id="loginIcon"></i>
+          <span id="loginBtnText">Đăng nhập tài khoản</span>
+        </button>
+
+        <!-- Theme Toggle Button -->
+        <button class="btn-icon" id="themeToggleBtn" aria-label="Chuyển chế độ sáng/tối" title="Đổi giao diện">
+          <i data-lucide="moon" id="themeIcon"></i>
+        </button>
+
+        <!-- Notifications Button -->
+        <div class="notifications-wrapper">
+          <button class="btn-icon" id="notificationsBtn" aria-label="Thông báo hệ thống">
+            <i data-lucide="bell"></i>
+            <span class="notification-indicator"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <div class="content-container">
+
+      <!-- ================= TAB 1: OVERVIEW ================= -->
+      <section id="tab-overview" class="tab-pane active">
+        <!-- Page Header -->
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Bảng điều khiển trung tâm</h2>
+            <p class="page-subtitle">Giám sát tổng quan người dùng, giao dịch và hiệu năng AI trợ lý Nếp trong thời gian thực.</p>
           </div>
-
-          <!-- Quick Refresh Button -->
-          <button class="btn btn-secondary btn-icon-text" id="refreshDataBtn" title="Làm mới số liệu">
-            <i data-lucide="rotate-cw"></i>
-            <span class="hide-mobile">Đồng bộ</span>
-          </button>
-
-          <!-- Login / Auth Button -->
-          <button class="btn btn-primary btn-icon-text" id="openLoginModalBtn" title="Đăng nhập tài khoản Supabase">
-            <i data-lucide="log-in" id="loginIcon"></i>
-            <span id="loginBtnText">Đăng nhập tài khoản</span>
-          </button>
-
-          <!-- Theme Toggle Button -->
-          <button class="btn-icon" id="themeToggleBtn" aria-label="Chuyển chế độ sáng/tối" title="Đổi giao diện">
-            <i data-lucide="moon" id="themeIcon"></i>
-          </button>
-
-          <!-- Notifications Button -->
-          <div class="notifications-wrapper">
-            <button class="btn-icon" id="notificationsBtn" aria-label="Thông báo hệ thống">
-              <i data-lucide="bell"></i>
-              <span class="notification-indicator"></span>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-icon-text" id="exportReportBtn">
+              <i data-lucide="download"></i>
+              <span>Xuất báo cáo PDF/Excel</span>
             </button>
           </div>
         </div>
-      </header>
 
-      <!-- CONTENT BODY -->
-      <div class="content-container">
-
-        <!-- ================= TAB 1: OVERVIEW ================= -->
-        <section id="tab-overview" class="tab-pane active">
-          <!-- Page Header -->
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Bảng điều khiển trung tâm</h2>
-              <p class="page-subtitle">Giám sát tổng quan người dùng, giao dịch và hiệu năng AI trợ lý Nếp trong thời gian thực.</p>
+        <!-- KPI METRIC CARDS (REAL DATABASE) -->
+        <div class="kpi-grid">
+          <!-- 1. Total Registered Users -->
+          <div class="kpi-card card-glow-primary">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-primary-soft text-primary">
+                <i data-lucide="users"></i>
+              </div>
+              <span class="badge badge-info">Supabase Thật</span>
             </div>
-            <div class="header-actions">
-              <button class="btn btn-primary btn-icon-text" id="exportReportBtn">
-                <i data-lucide="download"></i>
-                <span>Xuất báo cáo PDF/Excel</span>
-              </button>
+            <div class="kpi-data">
+              <span class="kpi-label">Tổng người dùng đã đăng ký</span>
+              <h3 class="kpi-value" id="kpiTotalUsers">0</h3>
             </div>
-          </div>
-
-          <!-- KPI METRIC CARDS (REAL DATABASE) -->
-          <div class="kpi-grid">
-            <!-- 1. Total Registered Users -->
-            <div class="kpi-card card-glow-primary">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-primary-soft text-primary">
-                  <i data-lucide="users"></i>
-                </div>
-                <span class="badge badge-info">Supabase Thật</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Tổng người dùng đã đăng ký</span>
-                <h3 class="kpi-value" id="kpiTotalUsers">0</h3>
-              </div>
-              <div class="kpi-footer">
-                <span class="kpi-subtext">Đọc từ Supabase Auth & Profiles</span>
-              </div>
-            </div>
-
-            <!-- 2. Active Accounts -->
-            <div class="kpi-card card-glow-success">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-success-soft text-success">
-                  <i data-lucide="user-check"></i>
-                </div>
-                <span class="badge badge-success">Live</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Tài khoản đang hoạt động</span>
-                <h3 class="kpi-value" id="kpiActiveUsers">0</h3>
-              </div>
-              <div class="kpi-footer">
-                <span class="kpi-subtext">Tài khoản chưa bị khóa</span>
-              </div>
-            </div>
-
-            <!-- 3. Locked/Suspended Accounts -->
-            <div class="kpi-card card-glow-danger">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-danger-soft text-danger">
-                  <i data-lucide="user-x"></i>
-                </div>
-                <span class="badge badge-danger">Bị khóa</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Số tài khoản bị khóa</span>
-                <h3 class="kpi-value" id="kpiLockedUsers">0</h3>
-              </div>
-              <div class="kpi-footer">
-                <span class="kpi-subtext">Tài khoản vi phạm bị Admin khóa</span>
-              </div>
-            </div>
-
-            <!-- 4. Total Transactions -->
-            <div class="kpi-card card-glow-warning">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-warning-soft text-warning">
-                  <i data-lucide="receipt"></i>
-                </div>
-                <span class="badge badge-warning">Database</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Tổng số giao dịch ghi nhận</span>
-                <h3 class="kpi-value" id="kpiTotalTransactions">0</h3>
-              </div>
-              <div class="kpi-footer">
-                <span class="kpi-subtext">Từ bảng transactions trên Supabase</span>
-              </div>
-            </div>
-
-            <!-- 5. Total AI Chatbot & OCR Requests -->
-            <div class="kpi-card card-glow-violet">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-violet-soft text-violet">
-                  <i data-lucide="bot"></i>
-                </div>
-                <span class="badge badge-violet">Gemini Vision</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Số giao dịch quét bill OCR</span>
-                <h3 class="kpi-value" id="kpiTotalAiRequests">0</h3>
-              </div>
-              <div class="kpi-footer">
-                <span class="kpi-subtext">Giao dịch có nguồn từ quét hóa đơn OCR</span>
-              </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Đọc từ Supabase Auth & Profiles</span>
             </div>
           </div>
 
-          <!-- PRIMARY CHARTS SECTION -->
-          <div class="charts-row">
-            <!-- Chart 1: Registration trend by month -->
-            <div class="chart-card flex-2">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Số lượng người dùng đăng ký theo tháng</h3>
-                  <p class="chart-subtitle">Tốc độ tăng trưởng tài khoản mới trong 10 tháng gần nhất (Năm 2026)</p>
-                </div>
-                <div class="chart-actions">
-                  <span class="legend-indicator dot-primary"></span><span class="legend-text">Đăng ký mới</span>
-                </div>
+          <!-- 2. Active Accounts -->
+          <div class="kpi-card card-glow-success">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-success-soft text-success">
+                <i data-lucide="user-check"></i>
               </div>
-              <div class="chart-canvas-container">
-                <canvas id="userGrowthChart"></canvas>
-              </div>
+              <span class="badge badge-success">Live</span>
             </div>
-
-            <!-- Chart 2: AI Chatbot & OCR usage distribution -->
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Phân bổ tính năng AI</h3>
-                  <p class="chart-subtitle">Tỷ trọng yêu cầu xử lý bởi AI Trợ lý</p>
-                </div>
-              </div>
-              <div class="chart-canvas-container doughnut-container">
-                <canvas id="aiUsageDistributionChart"></canvas>
-              </div>
-              <div class="doughnut-legend" id="aiUsageLegend"></div>
+            <div class="kpi-data">
+              <span class="kpi-label">Tài khoản đang hoạt động</span>
+              <h3 class="kpi-value" id="kpiActiveUsers">0</h3>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Tài khoản chưa bị khóa</span>
             </div>
           </div>
 
-          <!-- SECONDARY CHARTS SECTION -->
-          <div class="charts-row">
-            <!-- Chart 3: Transactions per Month -->
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Số lượng giao dịch phát sinh theo tháng</h3>
-                  <p class="chart-subtitle">Khối lượng chi tiêu và thu nhập được người dùng ghi chép</p>
-                </div>
-                <span class="badge badge-info">Tổng: 386.5k tx</span>
+          <!-- 3. Locked/Suspended Accounts -->
+          <div class="kpi-card card-glow-danger">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-danger-soft text-danger">
+                <i data-lucide="user-x"></i>
               </div>
-              <div class="chart-canvas-container">
-                <canvas id="transactionVolumeChart"></canvas>
-              </div>
+              <span class="badge badge-danger">Bị khóa</span>
             </div>
-
-            <!-- Chart 4: Active Users (DAU / MAU) -->
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Người dùng hoạt động theo khoảng thời gian</h3>
-                  <p class="chart-subtitle">Số lượng tài khoản tương tác hàng ngày (DAU) & hàng tháng (MAU)</p>
-                </div>
-                <span class="badge badge-success">Gắn kết: 41.2%</span>
-              </div>
-              <div class="chart-canvas-container">
-                <canvas id="activeUsersChart"></canvas>
-              </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Số tài khoản bị khóa</span>
+              <h3 class="kpi-value" id="kpiLockedUsers">0</h3>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Tài khoản vi phạm bị Admin khóa</span>
             </div>
           </div>
 
-          <!-- QUICK USERS PREVIEW -->
-          <div class="panel-card">
-            <div class="panel-header">
+          <!-- 4. Total Transactions -->
+          <div class="kpi-card card-glow-warning">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-warning-soft text-warning">
+                <i data-lucide="receipt"></i>
+              </div>
+              <span class="badge badge-warning">Database</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Tổng số giao dịch ghi nhận</span>
+              <h3 class="kpi-value" id="kpiTotalTransactions">0</h3>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Từ bảng transactions trên Supabase</span>
+            </div>
+          </div>
+
+          <!-- 5. Total AI Chatbot & OCR Requests -->
+          <div class="kpi-card card-glow-violet">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-violet-soft text-violet">
+                <i data-lucide="bot"></i>
+              </div>
+              <span class="badge badge-violet">Gemini Vision</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Số giao dịch quét bill OCR</span>
+              <h3 class="kpi-value" id="kpiTotalAiRequests">0</h3>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Giao dịch có nguồn từ quét hóa đơn OCR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRIMARY CHARTS SECTION -->
+        <div class="charts-row">
+          <!-- Chart 1: Registration trend by month -->
+          <div class="chart-card flex-2">
+            <div class="chart-header">
               <div>
-                <h3 class="panel-title">Tài khoản mới đăng ký gần đây</h3>
-                <p class="panel-subtitle">5 người dùng mới nhất tham gia hệ thống ứng dụng Nếp</p>
+                <h3 class="chart-title">Số lượng người dùng đăng ký theo tháng</h3>
+                <p class="chart-subtitle">Tốc độ tăng trưởng tài khoản mới trong 10 tháng gần nhất (Năm 2026)</p>
               </div>
-              <button class="btn btn-secondary btn-sm" id="viewAllUsersShortcut">
-                <span>Xem tất cả danh sách</span>
-                <i data-lucide="chevron-right" class="inline-icon"></i>
-              </button>
+              <div class="chart-actions">
+                <span class="legend-indicator dot-primary"></span><span class="legend-text">Đăng ký mới</span>
+              </div>
             </div>
-            <div class="table-responsive">
-              <table class="data-table" id="recentUsersTable">
-                <thead>
-                  <tr>
-                    <th>Người dùng</th>
-                    <th>Email</th>
-                    <th>Ngày đăng ký</th>
-                    <th>Số giao dịch</th>
-                    <th>Trạng thái</th>
-                    <th class="text-right">Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody id="recentUsersTableBody">
-                  <!-- Injected via JS -->
-                </tbody>
-              </table>
+            <div class="chart-canvas-container">
+              <canvas id="userGrowthChart"></canvas>
             </div>
           </div>
-        </section>
 
-        <!-- ================= TAB 2: USERS MANAGEMENT ================= -->
-        <section id="tab-users" class="tab-pane">
-          <div class="page-header">
+          <!-- Chart 2: AI Chatbot & OCR usage distribution -->
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Phân bổ tính năng AI</h3>
+                <p class="chart-subtitle">Tỷ trọng yêu cầu xử lý bởi AI Trợ lý</p>
+              </div>
+            </div>
+            <div class="chart-canvas-container doughnut-container">
+              <canvas id="aiUsageDistributionChart"></canvas>
+            </div>
+            <div class="doughnut-legend" id="aiUsageLegend"></div>
+          </div>
+        </div>
+
+        <!-- SECONDARY CHARTS SECTION -->
+        <div class="charts-row">
+          <!-- Chart 3: Transactions per Month -->
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Số lượng giao dịch phát sinh theo tháng</h3>
+                <p class="chart-subtitle">Khối lượng chi tiêu và thu nhập được người dùng ghi chép</p>
+              </div>
+              <span class="badge badge-info">Tổng: 386.5k tx</span>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="transactionVolumeChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 4: Active Users (DAU / MAU) -->
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Người dùng hoạt động theo khoảng thời gian</h3>
+                <p class="chart-subtitle">Số lượng tài khoản tương tác hàng ngày (DAU) & hàng tháng (MAU)</p>
+              </div>
+              <span class="badge badge-success">Gắn kết: 41.2%</span>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="activeUsersChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK USERS PREVIEW -->
+        <div class="panel-card">
+          <div class="panel-header">
             <div>
-              <h2 class="page-title">Quản lý người dùng</h2>
-              <p class="page-subtitle">Xem danh sách, tìm kiếm, kiểm tra thông tin chi tiết và xử lý khóa/mở khóa tài khoản.</p>
+              <h3 class="panel-title">Tài khoản mới đăng ký gần đây</h3>
+              <p class="panel-subtitle">5 người dùng mới nhất tham gia hệ thống ứng dụng Nếp</p>
             </div>
-            <div class="header-actions">
-              <button class="btn btn-primary btn-icon-text" id="syncRealDataBtn" title="Đồng bộ danh sách người dùng từ Supabase thật">
-                <i data-lucide="refresh-cw"></i>
-                <span>Đồng bộ Supabase</span>
-              </button>
-              <button class="btn btn-secondary btn-icon-text" id="exportUsersCsvBtn">
-                <i data-lucide="file-spreadsheet"></i>
-                <span>Xuất CSV</span>
-              </button>
-            </div>
+            <button class="btn btn-secondary btn-sm" id="viewAllUsersShortcut">
+              <span>Xem tất cả danh sách</span>
+              <i data-lucide="chevron-right" class="inline-icon"></i>
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="recentUsersTable">
+              <thead>
+              <tr>
+                <th>Người dùng</th>
+                <th>Email</th>
+                <th>Ngày đăng ký</th>
+                <th>Số giao dịch</th>
+                <th>Trạng thái</th>
+                <th class="text-right">Thao tác</th>
+              </tr>
+              </thead>
+              <tbody id="recentUsersTableBody">
+              <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: USERS MANAGEMENT ================= -->
+      <section id="tab-users" class="tab-pane">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Quản lý người dùng</h2>
+            <p class="page-subtitle">Xem danh sách, tìm kiếm, kiểm tra thông tin chi tiết và xử lý khóa/mở khóa tài khoản.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary btn-icon-text" id="syncRealDataBtn" title="Đồng bộ danh sách người dùng từ Supabase thật">
+              <i data-lucide="refresh-cw"></i>
+              <span>Đồng bộ Supabase</span>
+            </button>
+            <button class="btn btn-secondary btn-icon-text" id="exportUsersCsvBtn">
+              <i data-lucide="file-spreadsheet"></i>
+              <span>Xuất CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTERS & SEARCH TOOLBAR -->
+        <div class="toolbar-card">
+          <div class="search-input-wrapper">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="userSearchInput" class="form-input search-input" placeholder="Tìm kiếm theo tên người dùng, email, số điện thoại hoặc User ID...">
+            <button class="clear-search-btn" id="clearSearchBtn" title="Xóa tìm kiếm">
+              <i data-lucide="x"></i>
+            </button>
           </div>
 
-          <!-- FILTERS & SEARCH TOOLBAR -->
-          <div class="toolbar-card">
-            <div class="search-input-wrapper">
-              <i data-lucide="search" class="search-icon"></i>
-              <input type="text" id="userSearchInput" class="form-input search-input" placeholder="Tìm kiếm theo tên người dùng, email, số điện thoại hoặc User ID...">
-              <button class="clear-search-btn" id="clearSearchBtn" title="Xóa tìm kiếm">
-                <i data-lucide="x"></i>
-              </button>
-            </div>
-
-            <div class="filter-controls">
-              <!-- Status Filter Chips -->
-              <div class="filter-group">
-                <span class="filter-label">Trạng thái:</span>
-                <div class="filter-chips">
-                  <button class="chip active" data-filter="all">Tất cả (<span id="countAll">0</span>)</button>
-                  <button class="chip" data-filter="active">Đang hoạt động (<span id="countActive">0</span>)</button>
-                  <button class="chip" data-filter="locked">Bị khóa (<span id="countLocked">0</span>)</button>
-                  <button class="chip" data-filter="new">Mới tuần này (<span id="countNew">0</span>)</button>
-                </div>
-              </div>
-
-              <!-- Sorting -->
-              <div class="sort-wrapper">
-                <span class="filter-label">Sắp xếp:</span>
-                <select id="userSortSelect" class="form-select">
-                  <option value="created_desc" selected>Mới đăng ký nhất</option>
-                  <option value="created_asc">Đăng ký cũ nhất</option>
-                  <option value="name_asc">Tên (A-Z)</option>
-                  <option value="transactions_desc">Nhiều giao dịch nhất</option>
-                </select>
+          <div class="filter-controls">
+            <!-- Status Filter Chips -->
+            <div class="filter-group">
+              <span class="filter-label">Trạng thái:</span>
+              <div class="filter-chips">
+                <button class="chip active" data-filter="all">Tất cả (<span id="countAll">0</span>)</button>
+                <button class="chip" data-filter="active">Đang hoạt động (<span id="countActive">0</span>)</button>
+                <button class="chip" data-filter="locked">Bị khóa (<span id="countLocked">0</span>)</button>
+                <button class="chip" data-filter="new">Mới tuần này (<span id="countNew">0</span>)</button>
               </div>
             </div>
-          </div>
 
-          <!-- USERS DATA TABLE -->
-          <div class="panel-card">
-            <div class="table-responsive">
-              <table class="data-table" id="mainUsersTable">
-                <thead>
-                  <tr>
-                    <th>Người dùng</th>
-                    <th>Email & Liên hệ</th>
-                    <th>Ngày đăng ký</th>
-                    <th>Lần hoạt động cuối</th>
-                    <th>Giao dịch</th>
-                    <th>Trạng thái</th>
-                    <th class="text-right">Hành động</th>
-                  </tr>
-                </thead>
-                <tbody id="usersTableBody">
-                  <!-- Dynamically populated -->
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Empty Search State -->
-            <div class="empty-state" id="emptyUsersState" style="display: none;">
-              <div class="empty-icon">
-                <i data-lucide="user-search"></i>
-              </div>
-              <h4 class="empty-title">Không tìm thấy người dùng phù hợp</h4>
-              <p class="empty-description">Thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc để hiển thị danh sách đầy đủ.</p>
-              <button class="btn btn-secondary btn-sm" id="resetUserFilterBtn">Đặt lại bộ lọc</button>
-            </div>
-
-            <!-- TABLE PAGINATION -->
-            <div class="table-pagination">
-              <div class="pagination-info">
-                Hiển thị <strong id="pageStart">0</strong> - <strong id="pageEnd">0</strong> trong tổng số <strong id="totalFilteredUsers">0</strong> người dùng
-              </div>
-              <div class="pagination-nav">
-                <button class="btn-page" id="prevPageBtn" disabled>
-                  <i data-lucide="chevron-left"></i>
-                </button>
-                <div class="page-numbers" id="paginationPages">
-                  <!-- Page numbers -->
-                </div>
-                <button class="btn-page" id="nextPageBtn">
-                  <i data-lucide="chevron-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= TAB 3: ANALYTICS & GROWTH ================= -->
-        <section id="tab-analytics" class="tab-pane">
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Phân tích & Tăng trưởng</h2>
-              <p class="page-subtitle">Thống kê chi tiết chỉ số chuyển đổi, thời gian hoạt động người dùng và biểu đồ xu hướng theo từng chu kỳ.</p>
-            </div>
-            <div class="header-actions">
-              <select id="analyticsCycleSelect" class="form-select">
-                <option value="2026">Cả năm 2026</option>
-                <option value="2025">Cả năm 2025</option>
-                <option value="custom">So sánh kỳ trước</option>
+            <!-- Sorting -->
+            <div class="sort-wrapper">
+              <span class="filter-label">Sắp xếp:</span>
+              <select id="userSortSelect" class="form-select">
+                <option value="created_desc" selected>Mới đăng ký nhất</option>
+                <option value="created_asc">Đăng ký cũ nhất</option>
+                <option value="name_asc">Tên (A-Z)</option>
+                <option value="transactions_desc">Nhiều giao dịch nhất</option>
               </select>
             </div>
           </div>
-
-          <!-- Analytics Summary Cards -->
-          <div class="stats-metric-banner">
-            <div class="metric-item">
-              <span class="metric-title">Người dùng đăng ký trung bình / tháng</span>
-              <span class="metric-num"><span id="metricAvgNewUsers">0</span> <small class="text-success">+18%</small></span>
-              <span class="metric-note">Thống kê theo dữ liệu thật</span>
-            </div>
-            <div class="metric-item">
-              <span class="metric-title">Giao dịch bình quân / người dùng</span>
-              <span class="metric-num"><span id="metricAvgTxPerUser">0</span> <small class="text-success">tx/người</small></span>
-              <span class="metric-note">Từ bảng transactions trên Supabase</span>
-            </div>
-            <div class="metric-item">
-              <span class="metric-title">Tỷ lệ giữ chân người dùng (Retention M1)</span>
-              <span class="metric-num"><span id="metricRetention">82.5%</span></span>
-              <span class="metric-note">Mức benchmark tốt trong mảng Fintech</span>
-            </div>
-            <div class="metric-item">
-              <span class="metric-title">Thời gian hoạt động sôi nổi nhất</span>
-              <span class="metric-num"><span id="metricPeakHours">19:00 - 21:00</span></span>
-              <span class="metric-note">Giờ ăn tối & thanh toán hóa đơn</span>
-            </div>
-          </div>
-
-          <!-- Detailed Growth Charts -->
-          <div class="charts-row">
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">So sánh Đăng ký mới vs Người dùng kích hoạt</h3>
-                  <p class="chart-subtitle">Tỷ lệ người dùng tải app và ghi nhận giao dịch đầu tiên</p>
-                </div>
-              </div>
-              <div class="chart-canvas-container">
-                <canvas id="activationRateChart"></canvas>
-              </div>
-            </div>
-
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Khung giờ người dùng tương tác trong ngày</h3>
-                  <p class="chart-subtitle">Phân bổ 24 giờ của các giao dịch và câu hỏi AI</p>
-                </div>
-              </div>
-              <div class="chart-canvas-container">
-                <canvas id="hourlyActivityChart"></canvas>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= TAB 4: AI MONITORING ================= -->
-        <section id="tab-ai-monitoring" class="tab-pane">
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Giám sát AI Chatbot & Vision OCR</h2>
-              <p class="page-subtitle">Theo dõi số lượt gọi API Gemini 3.5 Flash, độ chính xác nhận diện hóa đơn và phản hồi trợ lý tài chính.</p>
-            </div>
-            <div class="header-actions">
-              <span class="badge badge-success">API Status: Online (Latency 1.8s)</span>
-            </div>
-          </div>
-
-          <!-- AI KPI Row -->
-          <div class="kpi-grid">
-            <div class="kpi-card card-glow-violet">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-violet-soft text-violet"><i data-lucide="message-square"></i></div>
-                <span class="badge badge-success">+15% Tháng này</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Hỏi đáp Trợ lý Nếp AI</span>
-                <h3 class="kpi-value" id="aiKpiChatRequests">0</h3>
-              </div>
-              <div class="kpi-footer"><span class="kpi-subtext">Lời khuyên chi tiêu, phân tích quỹ</span></div>
-            </div>
-
-            <div class="kpi-card card-glow-primary">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-primary-soft text-primary"><i data-lucide="scan-line"></i></div>
-                <span class="badge badge-info">Gemini 3.5 Lite</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Quét hóa đơn / Bill OCR</span>
-                <h3 class="kpi-value" id="aiKpiOcrRequests">0</h3>
-              </div>
-              <div class="kpi-footer"><span class="kpi-subtext">Tự bóc tách địa điểm & mô tả món</span></div>
-            </div>
-
-            <div class="kpi-card card-glow-success">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-success-soft text-success"><i data-lucide="check-circle-2"></i></div>
-                <span class="badge badge-success">Rất cao</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Độ chính xác trích xuất</span>
-                <h3 class="kpi-value" id="aiKpiAccuracy">98.6%</h3>
-              </div>
-              <div class="kpi-footer"><span class="kpi-subtext">Người dùng chấp nhận không sửa lại</span></div>
-            </div>
-
-            <div class="kpi-card card-glow-warning">
-              <div class="kpi-top">
-                <div class="kpi-icon-box bg-warning-soft text-warning"><i data-lucide="zap"></i></div>
-                <span class="badge badge-info">Fast</span>
-              </div>
-              <div class="kpi-data">
-                <span class="kpi-label">Thời gian phản hồi TB</span>
-                <h3 class="kpi-value" id="aiKpiLatency">1.75s</h3>
-              </div>
-              <div class="kpi-footer"><span class="kpi-subtext">Tối ưu trên Google Gemini v1beta</span></div>
-            </div>
-          </div>
-
-          <!-- AI Activity & Trends -->
-          <div class="charts-row">
-            <div class="chart-card flex-2">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Lưu lượng truy vấn AI theo ngày trong tháng</h3>
-                  <p class="chart-subtitle">So sánh số lượt quét Bill và số câu hỏi tài chính</p>
-                </div>
-              </div>
-              <div class="chart-canvas-container">
-                <canvas id="aiDailyVolumeChart"></canvas>
-              </div>
-            </div>
-
-            <div class="chart-card flex-1">
-              <div class="chart-header">
-                <div>
-                  <h3 class="chart-title">Các chủ đề hỏi AI nhiều nhất</h3>
-                  <p class="chart-subtitle">Thống kê từ khóa và mục tiêu của người dùng</p>
-                </div>
-              </div>
-              <div class="ai-topics-list">
-                <div class="ai-topic-item">
-                  <div class="topic-info">
-                    <span class="topic-name">"Tháng này tôi tiêu nhiều vào khoản nào?"</span>
-                    <span class="topic-count" id="topicCount1">0 lượt</span>
-                  </div>
-                  <div class="progress-bar-track"><div class="progress-bar-fill bg-primary" id="topicBar1" style="width: 85%"></div></div>
-                </div>
-                <div class="ai-topic-item">
-                  <div class="topic-info">
-                    <span class="topic-name">"Gợi ý cách tiết kiệm tiền ăn uống"</span>
-                    <span class="topic-count" id="topicCount2">0 lượt</span>
-                  </div>
-                  <div class="progress-bar-track"><div class="progress-bar-fill bg-violet" id="topicBar2" style="width: 70%"></div></div>
-                </div>
-                <div class="ai-topic-item">
-                  <div class="topic-info">
-                    <span class="topic-name">"Tôi có đủ ngân sách đi du lịch không?"</span>
-                    <span class="topic-count" id="topicCount3">0 lượt</span>
-                  </div>
-                  <div class="progress-bar-track"><div class="progress-bar-fill bg-success" id="topicBar3" style="width: 58%"></div></div>
-                </div>
-                <div class="ai-topic-item">
-                  <div class="topic-info">
-                    <span class="topic-name">"Cảnh báo giao dịch bất thường"</span>
-                    <span class="topic-count" id="topicCount4">0 lượt</span>
-                  </div>
-                  <div class="progress-bar-track"><div class="progress-bar-fill bg-warning" id="topicBar4" style="width: 42%"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= TAB 5: TRANSACTIONS ================= -->
-        <section id="tab-transactions" class="tab-pane">
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Sổ & Giao dịch hệ thống</h2>
-              <p class="page-subtitle">Xem các giao dịch được người dùng đồng bộ lên cơ sở dữ liệu Supabase.</p>
-            </div>
-          </div>
-
-          <div class="panel-card">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Mã GD</th>
-                    <th>Chủ tài khoản</th>
-                    <th>Loại</th>
-                    <th>Số tiền</th>
-                    <th>Danh mục</th>
-                    <th>Địa điểm / Ghi chú</th>
-                    <th>Thời gian</th>
-                    <th>Nguồn</th>
-                  </tr>
-                </thead>
-                <tbody id="transactionsTableBody">
-                  <!-- Injected via JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= TAB 6: AUDIT LOG ================= -->
-        <section id="tab-audit-log" class="tab-pane">
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Nhật ký bảo mật & Quản trị</h2>
-              <p class="page-subtitle">Lịch sử các thao tác khóa tài khoản, mở khóa và cảnh báo vi phạm của Admin.</p>
-            </div>
-          </div>
-
-          <div class="panel-card">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Thời gian</th>
-                    <th>Hành động</th>
-                    <th>Người thực hiện</th>
-                    <th>Tài khoản mục tiêu</th>
-                    <th>Lý do vi phạm</th>
-                    <th>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody id="auditLogTableBody">
-                  <!-- Injected via JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- ================= TAB 7: SETTINGS ================= -->
-        <section id="tab-settings" class="tab-pane">
-          <div class="page-header">
-            <div>
-              <h2 class="page-title">Cấu hình kết nối hệ thống</h2>
-              <p class="page-subtitle">Thiết lập kết nối với Supabase Cloud / Self-hosted và API Gemini.</p>
-            </div>
-          </div>
-
-          <div class="settings-grid">
-            <div class="panel-card">
-              <h3 class="panel-title">Kết nối Supabase Database</h3>
-              <p class="panel-subtitle">Điền thông tin để kết nối trực tiếp với bảng profiles & transactions của app Nếp.</p>
-              
-              <div class="form-group">
-                <label class="form-label" for="cfgSupabaseUrl">Supabase URL (Database Thật)</label>
-                <input type="text" id="cfgSupabaseUrl" class="form-input" placeholder="https://your-project.supabase.co" value="">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="cfgSupabaseKey">Supabase Service Role Key (Secret Key quản trị Auth & Bypass RLS)</label>
-                <input type="password" id="cfgSupabaseKey" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-                <span class="text-dim text-sm block" style="margin-top: 0.35rem;">Lấy tại: Supabase Dashboard &gt; Project Settings &gt; API &gt; service_role secret</span>
-              </div>
-
-              <div class="form-actions">
-                <button class="btn btn-primary" id="saveSupabaseConfigBtn">Lưu & Kết nối trực tiếp</button>
-              </div>
-            </div>
-
-            <div class="panel-card">
-              <h3 class="panel-title">Chính sách kiểm duyệt tài khoản</h3>
-              <p class="panel-subtitle">Quy tắc tự động cảnh báo hoặc tạm khóa khi phát hiện bất thường.</p>
-              
-              <div class="checkbox-setting">
-                <input type="checkbox" id="chkAutoLockSpam" checked>
-                <label for="chkAutoLockSpam">Tự động gắn cờ tài khoản tạo trên 50 giao dịch trong 1 phút</label>
-              </div>
-
-              <div class="checkbox-setting">
-                <input type="checkbox" id="chkAiAbuseLock" checked>
-                <label for="chkAiAbuseLock">Giới hạn tối đa 100 lần quét bill OCR/ngày cho mỗi tài khoản miễn phí</label>
-              </div>
-
-              <div class="checkbox-setting">
-                <input type="checkbox" id="chkRequireEmailVerification" checked>
-                <label for="chkRequireEmailVerification">Yêu cầu xác thực Email trước khi cho phép chia sẻ sổ quỹ chung</label>
-              </div>
-            </div>
-
-            <div class="panel-card">
-              <h3 class="panel-title">Tài khoản Quản trị viên chính (Admin)</h3>
-              <p class="panel-subtitle">Thay đổi email và mật khẩu dùng để quản trị và đăng nhập Bảng điều khiển.</p>
-              
-              <div class="form-group">
-                <label class="form-label" for="cfgAdminEmail">Email Quản trị viên (Admin)</label>
-                <input type="email" id="cfgAdminEmail" class="form-input" placeholder="dqlgamer@gmail.com" value="">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="cfgAdminPassword">Mật khẩu mới</label>
-                <input type="password" id="cfgAdminPassword" class="form-input" placeholder="Nhập mật khẩu mới (để trống nếu không đổi)...">
-                <span class="text-dim text-sm block" style="margin-top: 0.35rem;">Tự động đồng bộ vào local.properties</span>
-              </div>
-
-              <div class="form-actions">
-                <button class="btn btn-primary btn-icon-text" id="saveAdminCredentialsBtn" style="background: var(--violet); border-color: var(--violet);">
-                  <i data-lucide="shield-check"></i>
-                  <span>Lưu thay đổi quyền Admin</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </main>
-  </div>
-
-  <!-- ================= MODAL: XEM CHI TIẾT TÀI KHOẢN ================= -->
-  <div class="modal-overlay" id="userDetailModal" role="dialog" aria-modal="true" aria-labelledby="modalUserName">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-header">
-        <div class="modal-title-wrapper">
-          <div class="user-avatar-modal" id="modalUserAvatar">NT</div>
-          <div>
-            <h3 class="modal-title" id="modalUserName">Nguyễn Văn An</h3>
-            <span class="user-id-text" id="modalUserId">ID: 8a6b2c4e-12df-45e7</span>
-          </div>
-        </div>
-        <button class="modal-close-btn" id="closeUserDetailModalBtn" aria-label="Đóng">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <!-- User Status Banner -->
-        <div class="user-status-banner" id="modalStatusBanner">
-          <div class="banner-left">
-            <span class="status-indicator-badge badge-success" id="modalStatusBadge">Đang hoạt động</span>
-            <span class="last-seen-text" id="modalLastSeen">Hoạt động lần cuối: 10 phút trước</span>
-          </div>
-          <div class="banner-actions" id="modalBannerActions">
-            <!-- Dynamic button Ban / Unban -->
-          </div>
         </div>
 
-        <!-- Detail Tabs / Grid -->
-        <div class="user-info-grid">
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="mail"></i> Email</span>
-            <span class="info-value" id="modalUserEmail">an.nguyen@gmail.com</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="phone"></i> Số điện thoại</span>
-            <span class="info-value" id="modalUserPhone">0912 345 678</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="calendar"></i> Ngày đăng ký</span>
-            <span class="info-value" id="modalUserCreatedAt">15/03/2026 09:24</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="smartphone"></i> Thiết bị đăng nhập</span>
-            <span class="info-value" id="modalUserDevice">Android 14 (BlueStacks / Samsung S24)</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="shield-check"></i> Xác thực đồng ý AI</span>
-            <span class="info-value text-success" id="modalUserAiConsent">Đã đồng ý (2026-10-19)</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="wallet"></i> Sổ & Quỹ chung</span>
-            <span class="info-value" id="modalUserLedgers">1 sổ cá nhân, 1 quỹ chung gia đình</span>
-          </div>
-          <div class="info-block">
-            <span class="info-label"><i data-lucide="shield"></i> Quyền hệ thống</span>
-            <span class="info-value" id="modalUserRoleBadge"><span class="badge badge-secondary">Thành viên</span></span>
-          </div>
-        </div>
-
-        <!-- Quick Financial Stats -->
-        <h4 class="section-heading">Thống kê tài chính ghi nhận</h4>
-        <div class="financial-summary-cards">
-          <div class="fin-card">
-            <span class="fin-title">Tổng chi tiêu ghi chép</span>
-            <span class="fin-amount text-danger" id="modalUserTotalExpense">45.280.000 đ</span>
-          </div>
-          <div class="fin-card">
-            <span class="fin-title">Tổng thu nhập ghi chép</span>
-            <span class="fin-amount text-success" id="modalUserTotalIncome">68.500.000 đ</span>
-          </div>
-          <div class="fin-card">
-            <span class="fin-title">Giao dịch đã tạo</span>
-            <span class="fin-amount text-primary" id="modalUserTotalTx">142 giao dịch</span>
-          </div>
-          <div class="fin-card">
-            <span class="fin-title">Lượt quét hóa đơn OCR</span>
-            <span class="fin-amount text-violet" id="modalUserOcrCount">28 hóa đơn</span>
-          </div>
-        </div>
-
-        <!-- Recent Transactions of User -->
-        <h4 class="section-heading">Giao dịch gần đây nhất</h4>
-        <div class="table-responsive">
-          <table class="data-table data-table-sm">
-            <thead>
+        <!-- USERS DATA TABLE -->
+        <div class="panel-card">
+          <div class="table-responsive">
+            <table class="data-table" id="mainUsersTable">
+              <thead>
               <tr>
-                <th>Ngày</th>
-                <th>Mô tả / Đơn vị</th>
-                <th>Địa điểm</th>
-                <th>Danh mục</th>
-                <th class="text-right">Số tiền</th>
+                <th>Người dùng</th>
+                <th>Email & Liên hệ</th>
+                <th>Ngày đăng ký</th>
+                <th>Lần hoạt động cuối</th>
+                <th>Giao dịch</th>
+                <th>Trạng thái</th>
+                <th class="text-right">Hành động</th>
               </tr>
-            </thead>
-            <tbody id="modalUserRecentTxBody">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody id="usersTableBody">
+              <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="closeDetailModalBtn2">Đóng</button>
-        <button class="btn btn-primary btn-icon-text" id="modalToggleRoleBtn" style="background: var(--violet); border-color: var(--violet);">
-          <i data-lucide="shield"></i>
-          <span id="modalToggleRoleText">Cấp quyền Admin</span>
-        </button>
-        <button class="btn btn-danger btn-icon-text" id="modalBanActionBtn">
-          <i data-lucide="lock"></i>
-          <span>Khóa tài khoản</span>
-        </button>
-      </div>
-    </div>
-  </div>
+          <!-- Empty Search State -->
+          <div class="empty-state" id="emptyUsersState" style="display: none;">
+            <div class="empty-icon">
+              <i data-lucide="user-search"></i>
+            </div>
+            <h4 class="empty-title">Không tìm thấy người dùng phù hợp</h4>
+            <p class="empty-description">Thử tìm kiếm với từ khóa khác hoặc xóa bộ lọc để hiển thị danh sách đầy đủ.</p>
+            <button class="btn btn-secondary btn-sm" id="resetUserFilterBtn">Đặt lại bộ lọc</button>
+          </div>
 
-  <!-- ================= MODAL: KHÓA TÀI KHOẢN ================= -->
-  <div class="modal-overlay" id="banUserModal" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
-    <div class="modal-dialog">
-      <div class="modal-header modal-header-danger">
-        <div class="danger-header-icon">
-          <i data-lucide="alert-triangle"></i>
+          <!-- TABLE PAGINATION -->
+          <div class="table-pagination">
+            <div class="pagination-info">
+              Hiển thị <strong id="pageStart">0</strong> - <strong id="pageEnd">0</strong> trong tổng số <strong id="totalFilteredUsers">0</strong> người dùng
+            </div>
+            <div class="pagination-nav">
+              <button class="btn-page" id="prevPageBtn" disabled>
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <div class="page-numbers" id="paginationPages">
+                <!-- Page numbers -->
+              </div>
+              <button class="btn-page" id="nextPageBtn">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
         </div>
-        <div>
-          <h3 class="modal-title" id="banModalTitle">Khóa tài khoản người dùng</h3>
-          <p class="modal-subtitle">Hành động này sẽ ngắt quyền đăng nhập và đóng băng các giao dịch của tài khoản.</p>
-        </div>
-        <button class="modal-close-btn" id="closeBanModalBtn">&times;</button>
-      </div>
+      </section>
 
-      <div class="modal-body">
-        <div class="ban-target-card">
-          <div class="user-avatar-sm" id="banTargetAvatar">NA</div>
+      <!-- ================= TAB 3: ANALYTICS & GROWTH ================= -->
+      <section id="tab-analytics" class="tab-pane">
+        <div class="page-header">
           <div>
-            <strong id="banTargetName">Nguyễn Văn An</strong>
-            <span class="text-muted block text-sm" id="banTargetEmail">an.nguyen@gmail.com</span>
+            <h2 class="page-title">Phân tích & Tăng trưởng</h2>
+            <p class="page-subtitle">Thống kê chi tiết chỉ số chuyển đổi, thời gian hoạt động người dùng và biểu đồ xu hướng theo từng chu kỳ.</p>
+          </div>
+          <div class="header-actions">
+            <select id="analyticsCycleSelect" class="form-select">
+              <option value="2026">Cả năm 2026</option>
+              <option value="2025">Cả năm 2025</option>
+              <option value="custom">So sánh kỳ trước</option>
+            </select>
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="banReasonSelect">Lý do khóa tài khoản <span class="text-danger">*</span></label>
-          <select id="banReasonSelect" class="form-select">
-            <option value="Spam giao dịch ảo">Spam tạo giao dịch ảo bất thường</option>
-            <option value="Lạm dụng Gemini AI OCR">Lạm dụng gọi API Gemini OCR liên tục</option>
-            <option value="Hành vi nghi vấn gian lận">Hành vi nghi vấn gian lận quỹ chung</option>
-            <option value="Vi phạm điều khoản cộng đồng">Vi phạm điều khoản sử dụng ứng dụng</option>
-            <option value="Yêu cầu từ cơ quan chức năng">Yêu cầu từ cơ quan chức năng / Bảo mật</option>
-            <option value="Khác">Lý do khác (ghi rõ bên dưới)</option>
-          </select>
+        <!-- Analytics Summary Cards -->
+        <div class="stats-metric-banner">
+          <div class="metric-item">
+            <span class="metric-title">Người dùng đăng ký trung bình / tháng</span>
+            <span class="metric-num"><span id="metricAvgNewUsers">0</span> <small class="text-success">+18%</small></span>
+            <span class="metric-note">Thống kê theo dữ liệu thật</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-title">Giao dịch bình quân / người dùng</span>
+            <span class="metric-num"><span id="metricAvgTxPerUser">0</span> <small class="text-success">tx/người</small></span>
+            <span class="metric-note">Từ bảng transactions trên Supabase</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-title">Tỷ lệ giữ chân người dùng (Retention M1)</span>
+            <span class="metric-num"><span id="metricRetention">82.5%</span></span>
+            <span class="metric-note">Mức benchmark tốt trong mảng Fintech</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-title">Thời gian hoạt động sôi nổi nhất</span>
+            <span class="metric-num"><span id="metricPeakHours">19:00 - 21:00</span></span>
+            <span class="metric-note">Giờ ăn tối & thanh toán hóa đơn</span>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="banReasonDetail">Chi tiết vi phạm & Ghi chú kiểm toán</label>
-          <textarea id="banReasonDetail" class="form-textarea" rows="3" placeholder="Nhập chi tiết ghi chú để lưu vào Audit Log hệ thống..."></textarea>
+        <!-- Detailed Growth Charts -->
+        <div class="charts-row">
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">So sánh Đăng ký mới vs Người dùng kích hoạt</h3>
+                <p class="chart-subtitle">Tỷ lệ người dùng tải app và ghi nhận giao dịch đầu tiên</p>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="activationRateChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Khung giờ người dùng tương tác trong ngày</h3>
+                <p class="chart-subtitle">Phân bổ 24 giờ của các giao dịch và câu hỏi AI</p>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="hourlyActivityChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: AI MONITORING ================= -->
+      <section id="tab-ai-monitoring" class="tab-pane">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Giám sát AI Chatbot & Vision OCR</h2>
+            <p class="page-subtitle">Theo dõi số lượt gọi API Gemini 3.5 Flash, độ chính xác nhận diện hóa đơn và phản hồi trợ lý tài chính.</p>
+          </div>
+          <div class="header-actions">
+            <span class="badge badge-success">API Status: Online (Latency 1.8s)</span>
+          </div>
         </div>
 
-        <div class="alert alert-warning">
-          <i data-lucide="info" class="inline-icon"></i>
-          <span>Người dùng khi đăng nhập trên app Nếp sẽ nhận được thông báo tài khoản bị khóa kèm lý do vi phạm.</span>
+        <!-- AI KPI Row -->
+        <div class="kpi-grid">
+          <div class="kpi-card card-glow-violet">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-violet-soft text-violet"><i data-lucide="message-square"></i></div>
+              <span class="badge badge-success">+15% Tháng này</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Hỏi đáp Trợ lý Nếp AI</span>
+              <h3 class="kpi-value" id="aiKpiChatRequests">0</h3>
+            </div>
+            <div class="kpi-footer"><span class="kpi-subtext">Lời khuyên chi tiêu, phân tích quỹ</span></div>
+          </div>
+
+          <div class="kpi-card card-glow-primary">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-primary-soft text-primary"><i data-lucide="scan-line"></i></div>
+              <span class="badge badge-info">Gemini 3.5 Lite</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Quét hóa đơn / Bill OCR</span>
+              <h3 class="kpi-value" id="aiKpiOcrRequests">0</h3>
+            </div>
+            <div class="kpi-footer"><span class="kpi-subtext">Tự bóc tách địa điểm & mô tả món</span></div>
+          </div>
+
+          <div class="kpi-card card-glow-success">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-success-soft text-success"><i data-lucide="check-circle-2"></i></div>
+              <span class="badge badge-success">Rất cao</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Độ chính xác trích xuất</span>
+              <h3 class="kpi-value" id="aiKpiAccuracy">98.6%</h3>
+            </div>
+            <div class="kpi-footer"><span class="kpi-subtext">Người dùng chấp nhận không sửa lại</span></div>
+          </div>
+
+          <div class="kpi-card card-glow-warning">
+            <div class="kpi-top">
+              <div class="kpi-icon-box bg-warning-soft text-warning"><i data-lucide="zap"></i></div>
+              <span class="badge badge-info">Fast</span>
+            </div>
+            <div class="kpi-data">
+              <span class="kpi-label">Thời gian phản hồi TB</span>
+              <h3 class="kpi-value" id="aiKpiLatency">1.75s</h3>
+            </div>
+            <div class="kpi-footer"><span class="kpi-subtext">Tối ưu trên Google Gemini v1beta</span></div>
+          </div>
+        </div>
+
+        <!-- AI Activity & Trends -->
+        <div class="charts-row">
+          <div class="chart-card flex-2">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Lưu lượng truy vấn AI theo ngày trong tháng</h3>
+                <p class="chart-subtitle">So sánh số lượt quét Bill và số câu hỏi tài chính</p>
+              </div>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="aiDailyVolumeChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card flex-1">
+            <div class="chart-header">
+              <div>
+                <h3 class="chart-title">Các chủ đề hỏi AI nhiều nhất</h3>
+                <p class="chart-subtitle">Thống kê từ khóa và mục tiêu của người dùng</p>
+              </div>
+            </div>
+            <div class="ai-topics-list">
+              <div class="ai-topic-item">
+                <div class="topic-info">
+                  <span class="topic-name">"Tháng này tôi tiêu nhiều vào khoản nào?"</span>
+                  <span class="topic-count" id="topicCount1">0 lượt</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill bg-primary" id="topicBar1" style="width: 85%"></div></div>
+              </div>
+              <div class="ai-topic-item">
+                <div class="topic-info">
+                  <span class="topic-name">"Gợi ý cách tiết kiệm tiền ăn uống"</span>
+                  <span class="topic-count" id="topicCount2">0 lượt</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill bg-violet" id="topicBar2" style="width: 70%"></div></div>
+              </div>
+              <div class="ai-topic-item">
+                <div class="topic-info">
+                  <span class="topic-name">"Tôi có đủ ngân sách đi du lịch không?"</span>
+                  <span class="topic-count" id="topicCount3">0 lượt</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill bg-success" id="topicBar3" style="width: 58%"></div></div>
+              </div>
+              <div class="ai-topic-item">
+                <div class="topic-info">
+                  <span class="topic-name">"Cảnh báo giao dịch bất thường"</span>
+                  <span class="topic-count" id="topicCount4">0 lượt</span>
+                </div>
+                <div class="progress-bar-track"><div class="progress-bar-fill bg-warning" id="topicBar4" style="width: 42%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: TRANSACTIONS ================= -->
+      <section id="tab-transactions" class="tab-pane">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Sổ & Giao dịch hệ thống</h2>
+            <p class="page-subtitle">Xem các giao dịch được người dùng đồng bộ lên cơ sở dữ liệu Supabase.</p>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+              <tr>
+                <th>Mã GD</th>
+                <th>Chủ tài khoản</th>
+                <th>Loại</th>
+                <th>Số tiền</th>
+                <th>Danh mục</th>
+                <th>Địa điểm / Ghi chú</th>
+                <th>Thời gian</th>
+                <th>Nguồn</th>
+              </tr>
+              </thead>
+              <tbody id="transactionsTableBody">
+              <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 6: AUDIT LOG ================= -->
+      <section id="tab-audit-log" class="tab-pane">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Nhật ký bảo mật & Quản trị</h2>
+            <p class="page-subtitle">Lịch sử các thao tác khóa tài khoản, mở khóa và cảnh báo vi phạm của Admin.</p>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+              <tr>
+                <th>Thời gian</th>
+                <th>Hành động</th>
+                <th>Người thực hiện</th>
+                <th>Tài khoản mục tiêu</th>
+                <th>Lý do vi phạm</th>
+                <th>Trạng thái</th>
+              </tr>
+              </thead>
+              <tbody id="auditLogTableBody">
+              <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: SETTINGS ================= -->
+      <section id="tab-settings" class="tab-pane">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Cấu hình kết nối hệ thống</h2>
+            <p class="page-subtitle">Thiết lập kết nối với Supabase Cloud / Self-hosted và API Gemini.</p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="panel-card">
+            <h3 class="panel-title">Kết nối Supabase Database</h3>
+            <p class="panel-subtitle">Điền thông tin để kết nối trực tiếp với bảng profiles & transactions của app Nếp.</p>
+
+            <div class="form-group">
+              <label class="form-label" for="cfgSupabaseUrl">Supabase URL (Database Thật)</label>
+              <input type="text" id="cfgSupabaseUrl" class="form-input" placeholder="https://your-project.supabase.co" value="">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cfgSupabaseKey">Supabase Service Role Key (Secret Key quản trị Auth & Bypass RLS)</label>
+              <input type="password" id="cfgSupabaseKey" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+              <span class="text-dim text-sm block" style="margin-top: 0.35rem;">Lấy tại: Supabase Dashboard &gt; Project Settings &gt; API &gt; service_role secret</span>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" id="saveSupabaseConfigBtn">Lưu & Kết nối trực tiếp</button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3 class="panel-title">Chính sách kiểm duyệt tài khoản</h3>
+            <p class="panel-subtitle">Quy tắc tự động cảnh báo hoặc tạm khóa khi phát hiện bất thường.</p>
+
+            <div class="checkbox-setting">
+              <input type="checkbox" id="chkAutoLockSpam" checked>
+              <label for="chkAutoLockSpam">Tự động gắn cờ tài khoản tạo trên 50 giao dịch trong 1 phút</label>
+            </div>
+
+            <div class="checkbox-setting">
+              <input type="checkbox" id="chkAiAbuseLock" checked>
+              <label for="chkAiAbuseLock">Giới hạn tối đa 100 lần quét bill OCR/ngày cho mỗi tài khoản miễn phí</label>
+            </div>
+
+            <div class="checkbox-setting">
+              <input type="checkbox" id="chkRequireEmailVerification" checked>
+              <label for="chkRequireEmailVerification">Yêu cầu xác thực Email trước khi cho phép chia sẻ sổ quỹ chung</label>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <h3 class="panel-title">Tài khoản Quản trị viên chính (Admin)</h3>
+            <p class="panel-subtitle">Thay đổi email và mật khẩu dùng để quản trị và đăng nhập Bảng điều khiển.</p>
+
+            <div class="form-group">
+              <label class="form-label" for="cfgAdminEmail">Email Quản trị viên (Admin)</label>
+              <input type="email" id="cfgAdminEmail" class="form-input" placeholder="lansieunhann04@gmail.com" value="">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="cfgAdminPassword">Mật khẩu mới</label>
+              <input type="password" id="cfgAdminPassword" class="form-input" placeholder="Nhập mật khẩu mới (để trống nếu không đổi)...">
+              <span class="text-dim text-sm block" style="margin-top: 0.35rem;">Tự động đồng bộ vào local.properties</span>
+            </div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary btn-icon-text" id="saveAdminCredentialsBtn" style="background: var(--violet); border-color: var(--violet);">
+                <i data-lucide="shield-check"></i>
+                <span>Lưu thay đổi quyền Admin</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ================= MODAL: XEM CHI TIẾT TÀI KHOẢN ================= -->
+<div class="modal-overlay" id="userDetailModal" role="dialog" aria-modal="true" aria-labelledby="modalUserName">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-header">
+      <div class="modal-title-wrapper">
+        <div class="user-avatar-modal" id="modalUserAvatar">NT</div>
+        <div>
+          <h3 class="modal-title" id="modalUserName">Nguyễn Văn An</h3>
+          <span class="user-id-text" id="modalUserId">ID: 8a6b2c4e-12df-45e7</span>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="closeUserDetailModalBtn" aria-label="Đóng">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- User Status Banner -->
+      <div class="user-status-banner" id="modalStatusBanner">
+        <div class="banner-left">
+          <span class="status-indicator-badge badge-success" id="modalStatusBadge">Đang hoạt động</span>
+          <span class="last-seen-text" id="modalLastSeen">Hoạt động lần cuối: 10 phút trước</span>
+        </div>
+        <div class="banner-actions" id="modalBannerActions">
+          <!-- Dynamic button Ban / Unban -->
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="cancelBanModalBtn">Hủy bỏ</button>
-        <button class="btn btn-danger" id="confirmBanBtn">
-          <i data-lucide="shield-x"></i>
-          <span>Xác nhận khóa tài khoản</span>
-        </button>
+      <!-- Detail Tabs / Grid -->
+      <div class="user-info-grid">
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="mail"></i> Email</span>
+          <span class="info-value" id="modalUserEmail">an.nguyen@gmail.com</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="phone"></i> Số điện thoại</span>
+          <span class="info-value" id="modalUserPhone">0912 345 678</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="calendar"></i> Ngày đăng ký</span>
+          <span class="info-value" id="modalUserCreatedAt">15/03/2026 09:24</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="smartphone"></i> Thiết bị đăng nhập</span>
+          <span class="info-value" id="modalUserDevice">Android 14 (BlueStacks / Samsung S24)</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="shield-check"></i> Xác thực đồng ý AI</span>
+          <span class="info-value text-success" id="modalUserAiConsent">Đã đồng ý (2026-10-19)</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="wallet"></i> Sổ & Quỹ chung</span>
+          <span class="info-value" id="modalUserLedgers">1 sổ cá nhân, 1 quỹ chung gia đình</span>
+        </div>
+        <div class="info-block">
+          <span class="info-label"><i data-lucide="shield"></i> Quyền hệ thống</span>
+          <span class="info-value" id="modalUserRoleBadge"><span class="badge badge-secondary">Thành viên</span></span>
+        </div>
+      </div>
+
+      <!-- Quick Financial Stats -->
+      <h4 class="section-heading">Thống kê tài chính ghi nhận</h4>
+      <div class="financial-summary-cards">
+        <div class="fin-card">
+          <span class="fin-title">Tổng chi tiêu ghi chép</span>
+          <span class="fin-amount text-danger" id="modalUserTotalExpense">45.280.000 đ</span>
+        </div>
+        <div class="fin-card">
+          <span class="fin-title">Tổng thu nhập ghi chép</span>
+          <span class="fin-amount text-success" id="modalUserTotalIncome">68.500.000 đ</span>
+        </div>
+        <div class="fin-card">
+          <span class="fin-title">Giao dịch đã tạo</span>
+          <span class="fin-amount text-primary" id="modalUserTotalTx">142 giao dịch</span>
+        </div>
+        <div class="fin-card">
+          <span class="fin-title">Lượt quét hóa đơn OCR</span>
+          <span class="fin-amount text-violet" id="modalUserOcrCount">28 hóa đơn</span>
+        </div>
+      </div>
+
+      <!-- Recent Transactions of User -->
+      <h4 class="section-heading">Giao dịch gần đây nhất</h4>
+      <div class="table-responsive">
+        <table class="data-table data-table-sm">
+          <thead>
+          <tr>
+            <th>Ngày</th>
+            <th>Mô tả / Đơn vị</th>
+            <th>Địa điểm</th>
+            <th>Danh mục</th>
+            <th class="text-right">Số tiền</th>
+          </tr>
+          </thead>
+          <tbody id="modalUserRecentTxBody">
+          <!-- Rendered via JS -->
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
 
-  <!-- ================= MODAL: MỞ KHÓA TÀI KHOẢN ================= -->
-  <div class="modal-overlay" id="unbanUserModal" role="dialog" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="success-header-icon">
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="closeDetailModalBtn2">Đóng</button>
+      <button class="btn btn-primary btn-icon-text" id="modalToggleRoleBtn" style="background: var(--violet); border-color: var(--violet);">
+        <i data-lucide="shield"></i>
+        <span id="modalToggleRoleText">Cấp quyền Admin</span>
+      </button>
+      <button class="btn btn-danger btn-icon-text" id="modalBanActionBtn">
+        <i data-lucide="lock"></i>
+        <span>Khóa tài khoản</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: KHÓA TÀI KHOẢN ================= -->
+<div class="modal-overlay" id="banUserModal" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
+  <div class="modal-dialog">
+    <div class="modal-header modal-header-danger">
+      <div class="danger-header-icon">
+        <i data-lucide="alert-triangle"></i>
+      </div>
+      <div>
+        <h3 class="modal-title" id="banModalTitle">Khóa tài khoản người dùng</h3>
+        <p class="modal-subtitle">Hành động này sẽ ngắt quyền đăng nhập và đóng băng các giao dịch của tài khoản.</p>
+      </div>
+      <button class="modal-close-btn" id="closeBanModalBtn">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="ban-target-card">
+        <div class="user-avatar-sm" id="banTargetAvatar">NA</div>
+        <div>
+          <strong id="banTargetName">Nguyễn Văn An</strong>
+          <span class="text-muted block text-sm" id="banTargetEmail">an.nguyen@gmail.com</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="banReasonSelect">Lý do khóa tài khoản <span class="text-danger">*</span></label>
+        <select id="banReasonSelect" class="form-select">
+          <option value="Spam giao dịch ảo">Spam tạo giao dịch ảo bất thường</option>
+          <option value="Lạm dụng Gemini AI OCR">Lạm dụng gọi API Gemini OCR liên tục</option>
+          <option value="Hành vi nghi vấn gian lận">Hành vi nghi vấn gian lận quỹ chung</option>
+          <option value="Vi phạm điều khoản cộng đồng">Vi phạm điều khoản sử dụng ứng dụng</option>
+          <option value="Yêu cầu từ cơ quan chức năng">Yêu cầu từ cơ quan chức năng / Bảo mật</option>
+          <option value="Khác">Lý do khác (ghi rõ bên dưới)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="banReasonDetail">Chi tiết vi phạm & Ghi chú kiểm toán</label>
+        <textarea id="banReasonDetail" class="form-textarea" rows="3" placeholder="Nhập chi tiết ghi chú để lưu vào Audit Log hệ thống..."></textarea>
+      </div>
+
+      <div class="alert alert-warning">
+        <i data-lucide="info" class="inline-icon"></i>
+        <span>Người dùng khi đăng nhập trên app Nếp sẽ nhận được thông báo tài khoản bị khóa kèm lý do vi phạm.</span>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelBanModalBtn">Hủy bỏ</button>
+      <button class="btn btn-danger" id="confirmBanBtn">
+        <i data-lucide="shield-x"></i>
+        <span>Xác nhận khóa tài khoản</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: MỞ KHÓA TÀI KHOẢN ================= -->
+<div class="modal-overlay" id="unbanUserModal" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <div class="success-header-icon">
+        <i data-lucide="shield-check"></i>
+      </div>
+      <div>
+        <h3 class="modal-title">Mở khóa tài khoản</h3>
+        <p class="modal-subtitle">Khôi phục quyền truy cập bình thường cho người dùng.</p>
+      </div>
+      <button class="modal-close-btn" id="closeUnbanModalBtn">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p>Bạn có chắc chắn muốn mở khóa cho tài khoản <strong id="unbanTargetName">Nguyễn Văn An</strong> (<span id="unbanTargetEmail">an.nguyen@gmail.com</span>)?</p>
+      <div class="form-group">
+        <label class="form-label" for="unbanNote">Ghi chú mở khóa</label>
+        <input type="text" id="unbanNote" class="form-input" placeholder="Ví dụ: Người dùng đã giải trình hợp lệ, mở khóa phục hồi">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelUnbanModalBtn">Hủy</button>
+      <button class="btn btn-success" id="confirmUnbanBtn">Xác nhận mở khóa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: THAY ĐỔI QUYỀN ADMIN ================= -->
+<div class="modal-overlay" id="changeRoleModal" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <div class="kpi-icon-box bg-violet-soft text-violet">
+        <i data-lucide="shield-alert"></i>
+      </div>
+      <div>
+        <h3 class="modal-title" id="roleModalTitle">Thay đổi quyền Quản trị viên</h3>
+        <p class="modal-subtitle">Cấp hoặc thu hồi quyền truy cập Bảng điều khiển quản trị Nếp Admin Portal.</p>
+      </div>
+      <button class="modal-close-btn" id="closeRoleModalBtn">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="target-user-summary" style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 12px; margin-bottom: 1rem;">
+        <div class="user-cell">
+          <div class="avatar-badge" id="roleTargetAvatar" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">AD</div>
+          <div>
+            <strong id="roleTargetName">Tên người dùng</strong>
+            <span class="text-muted block text-sm" id="roleTargetEmail">email@example.com</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="selectUserRole">Chọn vai trò hệ thống <span class="text-danger">*</span></label>
+        <select id="selectUserRole" class="form-select">
+          <option value="admin">Quản trị viên (Admin) - Toàn quyền quản trị</option>
+          <option value="member">Thành viên (Member) - Chỉ dùng app di động</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="roleChangeNote">Ghi chú phân quyền</label>
+        <input type="text" id="roleChangeNote" class="form-input" placeholder="Ví dụ: Cấp quyền quản trị viên cho nhân sự">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelRoleModalBtn">Hủy</button>
+      <button class="btn btn-primary btn-icon-text" id="confirmRoleChangeBtn" style="background: var(--violet); border-color: var(--violet);">
+        <i data-lucide="check"></i>
+        <span>Xác nhận phân quyền</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL: ĐĂNG NHẬP TÀI KHOẢN SUPABASE THẬT ================= -->
+<div class="modal-overlay" id="supabaseLoginModal" role="dialog" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <div class="modal-title-wrapper">
+        <div class="kpi-icon-box bg-primary-soft text-primary">
           <i data-lucide="shield-check"></i>
         </div>
         <div>
-          <h3 class="modal-title">Mở khóa tài khoản</h3>
-          <p class="modal-subtitle">Khôi phục quyền truy cập bình thường cho người dùng.</p>
-        </div>
-        <button class="modal-close-btn" id="closeUnbanModalBtn">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <p>Bạn có chắc chắn muốn mở khóa cho tài khoản <strong id="unbanTargetName">Nguyễn Văn An</strong> (<span id="unbanTargetEmail">an.nguyen@gmail.com</span>)?</p>
-        <div class="form-group">
-          <label class="form-label" for="unbanNote">Ghi chú mở khóa</label>
-          <input type="text" id="unbanNote" class="form-input" placeholder="Ví dụ: Người dùng đã giải trình hợp lệ, mở khóa phục hồi">
+          <h3 class="modal-title">Đăng nhập tài khoản Nếp</h3>
+          <p class="modal-subtitle">Dùng email &amp; mật khẩu bạn đã đăng ký trên app để đồng bộ hóa đơn và dữ liệu chi tiêu thật.</p>
         </div>
       </div>
+      <button class="modal-close-btn" id="closeLoginModalBtn">&times;</button>
+    </div>
 
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="cancelUnbanModalBtn">Hủy</button>
-        <button class="btn btn-success" id="confirmUnbanBtn">Xác nhận mở khóa</button>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label" for="loginEmail">Email đăng nhập app <span class="text-danger">*</span></label>
+        <input type="email" id="loginEmail" class="form-input" placeholder="Nhập email của bạn (ví dụ: an@gmail.com)" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="loginPassword">Mật khẩu <span class="text-danger">*</span></label>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Nhập mật khẩu..." required>
+      </div>
+
+      <div style="margin: 1rem 0; border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
+        <details>
+          <summary style="cursor: pointer; font-size: 0.84rem; color: var(--text-muted); font-weight: 600;">
+            🔑 Hoặc đăng nhập toàn quyền bằng Service Role Key
+          </summary>
+          <div style="margin-top: 0.75rem;">
+            <input type="password" id="loginServiceKey" class="form-input" placeholder="Dán SUPABASE_SERVICE_ROLE_KEY nếu có...">
+          </div>
+        </details>
       </div>
     </div>
-  </div>
 
-  <!-- ================= MODAL: THAY ĐỔI QUYỀN ADMIN ================= -->
-  <div class="modal-overlay" id="changeRoleModal" role="dialog" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="kpi-icon-box bg-violet-soft text-violet">
-          <i data-lucide="shield-alert"></i>
-        </div>
-        <div>
-          <h3 class="modal-title" id="roleModalTitle">Thay đổi quyền Quản trị viên</h3>
-          <p class="modal-subtitle">Cấp hoặc thu hồi quyền truy cập Bảng điều khiển quản trị Nếp Admin Portal.</p>
-        </div>
-        <button class="modal-close-btn" id="closeRoleModalBtn">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="target-user-summary" style="background: rgba(255, 255, 255, 0.04); padding: 12px; border-radius: 12px; margin-bottom: 1rem;">
-          <div class="user-cell">
-            <div class="avatar-badge" id="roleTargetAvatar" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">AD</div>
-            <div>
-              <strong id="roleTargetName">Tên người dùng</strong>
-              <span class="text-muted block text-sm" id="roleTargetEmail">email@example.com</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="selectUserRole">Chọn vai trò hệ thống <span class="text-danger">*</span></label>
-          <select id="selectUserRole" class="form-select">
-            <option value="admin">Quản trị viên (Admin) - Toàn quyền quản trị</option>
-            <option value="member">Thành viên (Member) - Chỉ dùng app di động</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="roleChangeNote">Ghi chú phân quyền</label>
-          <input type="text" id="roleChangeNote" class="form-input" placeholder="Ví dụ: Cấp quyền quản trị viên cho nhân sự">
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="cancelRoleModalBtn">Hủy</button>
-        <button class="btn btn-primary btn-icon-text" id="confirmRoleChangeBtn" style="background: var(--violet); border-color: var(--violet);">
-          <i data-lucide="check"></i>
-          <span>Xác nhận phân quyền</span>
-        </button>
-      </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelLoginModalBtn">Đóng</button>
+      <button class="btn btn-primary btn-icon-text" id="submitLoginBtn">
+        <i data-lucide="log-in"></i>
+        <span>Xác nhận đăng nhập</span>
+      </button>
     </div>
   </div>
+</div>
 
-  <!-- ================= MODAL: ĐĂNG NHẬP TÀI KHOẢN SUPABASE THẬT ================= -->
-  <div class="modal-overlay" id="supabaseLoginModal" role="dialog" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="modal-title-wrapper">
-          <div class="kpi-icon-box bg-primary-soft text-primary">
-            <i data-lucide="shield-check"></i>
-          </div>
-          <div>
-            <h3 class="modal-title">Đăng nhập tài khoản Nếp</h3>
-            <p class="modal-subtitle">Dùng email &amp; mật khẩu bạn đã đăng ký trên app để đồng bộ hóa đơn và dữ liệu chi tiêu thật.</p>
-          </div>
-        </div>
-        <button class="modal-close-btn" id="closeLoginModalBtn">&times;</button>
-      </div>
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
 
-      <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label" for="loginEmail">Email đăng nhập app <span class="text-danger">*</span></label>
-          <input type="email" id="loginEmail" class="form-input" placeholder="Nhập email của bạn (ví dụ: an@gmail.com)" required>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="loginPassword">Mật khẩu <span class="text-danger">*</span></label>
-          <input type="password" id="loginPassword" class="form-input" placeholder="Nhập mật khẩu..." required>
-        </div>
-
-        <div style="margin: 1rem 0; border-top: 1px solid var(--border-subtle); padding-top: 0.75rem;">
-          <details>
-            <summary style="cursor: pointer; font-size: 0.84rem; color: var(--text-muted); font-weight: 600;">
-              🔑 Hoặc đăng nhập toàn quyền bằng Service Role Key
-            </summary>
-            <div style="margin-top: 0.75rem;">
-              <input type="password" id="loginServiceKey" class="form-input" placeholder="Dán SUPABASE_SERVICE_ROLE_KEY nếu có...">
-            </div>
-          </details>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="cancelLoginModalBtn">Đóng</button>
-        <button class="btn btn-primary btn-icon-text" id="submitLoginBtn">
-          <i data-lucide="log-in"></i>
-          <span>Xác nhận đăng nhập</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST NOTIFICATION CONTAINER -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- CẤU HÌNH TẬP TRUNG TỰ ĐỘNG TỪ LOCAL.PROPERTIES -->
-  <script src="runtime-config.js"></script>
-  <!-- APP JAVASCRIPT -->
-  <script src="app.js"></script>
+<!-- CẤU HÌNH TẬP TRUNG TỰ ĐỘNG TỪ LOCAL.PROPERTIES -->
+<script src="runtime-config.js"></script>
+<!-- APP JAVASCRIPT -->
+<script src="app.js"></script>
 </body>
 </html>
