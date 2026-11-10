@@ -1,7 +1,7 @@
 /**
  * NÉP ADMIN PORTAL — TỰ ĐỘNG ĐĂNG NHẬP ADMIN VÀ KẾT NỐI DATABASE THẬT
  * Tài khoản Admin: dqlgamer@gmail.com
- * Supabase: https://wxemiabmltbukguysdxf.supabase.co
+ * Supabase: https://mmzdsvbvfeydouxhnwjl.supabase.co
  */
 
 // ============================================================================
@@ -475,17 +475,20 @@ function initTimeRangeSelector() {
     AppState.timeRange = e.target.value;
     const label = select.options[select.selectedIndex]?.text || "";
     showToast(`Đã lọc dữ liệu theo: ${label}`, "info");
-    updateKpiCards();
-    renderTransactionsTable();
-    updateChartsWithRealData();
-    renderSecondaryCharts();
+    renderAllViews();
+    if (AppState.activeTab === "analytics" || AppState.activeTab === "ai-monitoring") {
+      renderSecondaryCharts();
+    }
   };
 }
 
 function updateKpiCards() {
-  const allUsers = AppState.realUsers;
+  const allUsers = AppState.realUsers || [];
+  const users = allUsers; // Giữ biến users để tương thích an toàn tuyệt đối
   const filteredUsers = getFilteredUsers();
-  const filteredTx = getFilteredTransactions();
+  const allTx = AppState.realTransactions || [];
+  const tx = getFilteredTransactions();
+  const filteredTx = tx;
 
   const totalUsers = AppState.timeRange === 'all' ? allUsers.length : filteredUsers.length;
   const lockedUsers = allUsers.filter(u => u.status === "locked").length;
@@ -506,11 +509,16 @@ function updateKpiCards() {
   if (elActiveUsers) {
     elActiveUsers.textContent = activeUsers.toLocaleString('vi-VN');
     const sub = elActiveUsers.closest(".kpi-card")?.querySelector(".kpi-subtext");
-    if (sub) sub.textContent = AppState.timeRange === 'all' ? "Tài khoản chưa bị khóa" : `Hoạt động trong ${timeLabel}`;
+    if (sub) sub.textContent = AppState.timeRange === 'all' ? "Tất cả tài khoản chưa bị khóa" : `Hoạt động trong ${timeLabel}`;
   }
 
   const elLockedUsers = document.getElementById("kpiLockedUsers");
-  if (elLockedUsers) elLockedUsers.textContent = lockedUsers.toLocaleString('vi-VN');
+  if (elLockedUsers) {
+    const periodLocked = filteredUsers.filter(u => u.status === "locked").length;
+    elLockedUsers.textContent = (AppState.timeRange === 'all' ? lockedUsers : periodLocked).toLocaleString('vi-VN');
+    const sub = elLockedUsers.closest(".kpi-card")?.querySelector(".kpi-subtext");
+    if (sub) sub.textContent = AppState.timeRange === 'all' ? "Tài khoản vi phạm bị Admin khóa" : `Khóa trong ${timeLabel}`;
+  }
 
   const elTotalTx = document.getElementById("kpiTotalTransactions");
   if (elTotalTx) {
@@ -532,11 +540,11 @@ function updateKpiCards() {
 
   document.getElementById("countAll").textContent = totalUsers.toLocaleString('vi-VN');
   document.getElementById("countActive").textContent = activeUsers.toLocaleString('vi-VN');
-  document.getElementById("countLocked").textContent = lockedUsers.toLocaleString('vi-VN');
+  document.getElementById("countLocked").textContent = (AppState.timeRange === 'all' ? lockedUsers : filteredUsers.filter(u => u.status === "locked").length).toLocaleString('vi-VN');
 
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-  const newUsersCount = users.filter(u => new Date(u.createdAt) >= oneWeekAgo).length;
+  const newUsersCount = allUsers.filter(u => new Date(u.createdAt) >= oneWeekAgo).length;
   document.getElementById("countNew").textContent = newUsersCount.toLocaleString('vi-VN');
 
   // 3. Tab 3: Phân tích tăng trưởng
@@ -582,7 +590,8 @@ function renderUsersTable() {
   const emptyState = document.getElementById("emptyUsersState");
   if (!tbody) return;
 
-  let filtered = AppState.realUsers.filter(user => {
+  const baseUsers = AppState.timeRange === 'all' ? AppState.realUsers : getFilteredUsers();
+  let filtered = baseUsers.filter(user => {
     if (AppState.currentFilter === "active" && user.status !== "active") return false;
     if (AppState.currentFilter === "locked" && user.status !== "locked") return false;
     if (AppState.currentFilter === "new") {
@@ -1695,9 +1704,12 @@ function setupEventListeners() {
   document.getElementById("resetUserFilterBtn")?.addEventListener("click", () => {
     AppState.searchQuery = "";
     AppState.currentFilter = "all";
+    AppState.timeRange = "all";
+    const timeSelect = document.getElementById("timeRangeSelect");
+    if (timeSelect) timeSelect.value = "all";
     if (searchInput) searchInput.value = "";
     chips.forEach(c => c.classList.toggle("active", c.getAttribute("data-filter") === "all"));
-    renderUsersTable();
+    renderAllViews();
   });
 
   // Modal Closures
@@ -1769,6 +1781,22 @@ function setupEventListeners() {
   document.getElementById("syncRealDataBtn")?.addEventListener("click", () => {
     loadRealDataFromDatabase();
   });
+
+  // Analytics Cycle Select
+  document.getElementById("analyticsCycleSelect")?.addEventListener("change", (e) => {
+    showToast(`Đã chuyển chu kỳ phân tích: ${e.target.options[e.target.selectedIndex]?.text || e.target.value}`, "info");
+    renderSecondaryCharts();
+  });
+
+  // Hỗ trợ chuyển tab qua URL Hash (#users, #analytics...)
+  window.addEventListener("hashchange", () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) switchTab(hash);
+  });
+  if (window.location.hash) {
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash) setTimeout(() => switchTab(initialHash), 50);
+  }
 
   // Export CSV
   document.getElementById("exportUsersCsvBtn")?.addEventListener("click", exportRealUsersToCsv);
