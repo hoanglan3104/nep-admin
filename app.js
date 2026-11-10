@@ -1,12 +1,3 @@
-/**
- * NÉP ADMIN PORTAL — TỰ ĐỘNG ĐĂNG NHẬP ADMIN VÀ KẾT NỐI DATABASE THẬT
- * Tài khoản Admin: dqlgamer@gmail.com
- * Supabase: https://wxemiabmltbukguysdxf.supabase.co
- */
-
-// ============================================================================
-// 1. TÀI KHOẢN ADMIN & CẤU HÌNH HỆ THỐNG
-// ============================================================================
 
 const runtimeCfg = (typeof window !== "undefined" && window.RUNTIME_CONFIG) ? window.RUNTIME_CONFIG : {};
 
@@ -40,6 +31,7 @@ const AppState = {
   config: {
     supabaseUrl: runtimeCfg.supabaseUrl || "https://mmzdsvbvfeydouxhnwjl.supabase.co",
     supabaseAnonKey: runtimeCfg.supabaseAnonKey || "sb_publishable_RoYn6HVy9X9VGfxXlbzIxA_6VgztT_H",
+    supabaseServiceRoleKey: runtimeCfg.supabaseServiceRoleKey || (typeof localStorage !== "undefined" ? localStorage.getItem("nep_service_role_key") || "" : ""),
     projectRef: runtimeCfg.projectRef || "mmzdsvbvfeydouxhnwjl"
   },
   session: null,        // { accessToken, userId, email, userMetadata }
@@ -49,6 +41,7 @@ const AppState = {
   realTransactions: [], // Danh sách giao dịch thật từ database
   auditLogs: [],
   activeTab: "overview",
+  timeRange: "all",     // all, month, last_month, quarter, year
   currentFilter: "all",
   searchQuery: "",
   sortBy: "created_desc",
@@ -145,6 +138,9 @@ async function syncConfigFromSource() {
       if (data.supabaseUrl) {
         AppState.config.supabaseUrl = data.supabaseUrl;
         AppState.config.supabaseAnonKey = data.supabaseAnonKey;
+        if (data.supabaseServiceRoleKey) {
+          AppState.config.supabaseServiceRoleKey = data.supabaseServiceRoleKey;
+        }
         AppState.config.projectRef = data.projectRef || (data.supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]);
         if (!localStorage.getItem("nep_admin_email") && data.adminEmail) {
           ADMIN_CREDENTIALS.email = data.adminEmail;
@@ -158,11 +154,12 @@ async function syncConfigFromSource() {
     }
   } catch (_) {}
 
-  if (!AppState.config.supabaseUrl && typeof window !== "undefined" && window.RUNTIME_CONFIG && window.RUNTIME_CONFIG.supabaseUrl) {
+  if (typeof window !== "undefined" && window.RUNTIME_CONFIG) {
     const cfg = window.RUNTIME_CONFIG;
-    AppState.config.supabaseUrl = cfg.supabaseUrl;
-    AppState.config.supabaseAnonKey = cfg.supabaseAnonKey;
-    AppState.config.projectRef = cfg.projectRef || (cfg.supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]);
+    if (cfg.supabaseUrl) AppState.config.supabaseUrl = cfg.supabaseUrl;
+    if (cfg.supabaseAnonKey) AppState.config.supabaseAnonKey = cfg.supabaseAnonKey;
+    if (cfg.supabaseServiceRoleKey) AppState.config.supabaseServiceRoleKey = cfg.supabaseServiceRoleKey;
+    AppState.config.projectRef = cfg.projectRef || (AppState.config.supabaseUrl.replace(/^https?:\/\//, '').split('.')[0]);
     if (!localStorage.getItem("nep_admin_email") && cfg.adminEmail) {
       ADMIN_CREDENTIALS.email = cfg.adminEmail;
     }
@@ -201,6 +198,11 @@ function updateAuthHeaderUI() {
     cfgUrlInput.value = AppState.config.supabaseUrl;
   }
 
+  const cfgKeyInput = document.getElementById("cfgSupabaseKey");
+  if (cfgKeyInput && !cfgKeyInput.value && AppState.config.supabaseServiceRoleKey) {
+    cfgKeyInput.value = AppState.config.supabaseServiceRoleKey;
+  }
+
   const cfgAdminEmailInput = document.getElementById("cfgAdminEmail");
   if (cfgAdminEmailInput) {
     cfgAdminEmailInput.value = email;
@@ -215,10 +217,13 @@ function updateAuthHeaderUI() {
 
 async function querySupabase(endpoint, options = {}) {
   const url = AppState.config.supabaseUrl.replace(/\/$/, '') + endpoint;
-  const token = AppState.session ? AppState.session.accessToken : AppState.config.supabaseAnonKey;
+  // Nếu có Service Role Key thì ưu tiên dùng để Bypass RLS xem toàn quyền hệ thống
+  const serviceKey = AppState.config.supabaseServiceRoleKey;
+  const token = serviceKey || (AppState.session ? AppState.session.accessToken : AppState.config.supabaseAnonKey);
+  const apikey = serviceKey || AppState.config.supabaseAnonKey;
 
   const headers = {
-    'apikey': AppState.config.supabaseAnonKey,
+    'apikey': apikey,
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json',
     ...(options.headers || {})
@@ -364,9 +369,69 @@ function updateLoadingStatus(isLoading, message, isError = false) {
   }
 }
 
+function getFilteredTransactions() {
+  const tx = AppState.realTransactions || [];
+  if (AppState.timeRange === 'all') return tx;
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth(); // 0-11
+
+  return tx.filter(t => {
+    const dStr = t.occurred_on || t.occurred_at || t.created_at;
+    if (!dStr) return true;
+    const d = new Date(dStr);
+    if (isNaN(d.getTime())) return true;
+
+    if (AppState.timeRange === 'month') {
+      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+    }
+    if (AppState.timeRange === 'last_month') {
+      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+      const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+      return d.getFullYear() === lastYear && d.getMonth() === lastMonth;
+    }
+    if (AppState.timeRange === 'quarter') {
+      const q = Math.floor(currentMonth / 3);
+      const itemQ = Math.floor(d.getMonth() / 3);
+      return d.getFullYear() === currentYear && itemQ === q;
+    }
+    if (AppState.timeRange === 'year') {
+      return d.getFullYear() === currentYear;
+    }
+    return true;
+  });
+}
+
+function initTimeRangeSelector() {
+  const select = document.getElementById("timeRangeSelect");
+  if (!select) return;
+  const now = new Date();
+  const m = now.getMonth() + 1;
+  const y = now.getFullYear();
+  const q = Math.ceil(m / 3);
+  const prevM = m === 1 ? 12 : m - 1;
+  const prevY = m === 1 ? y - 1 : y;
+
+  select.innerHTML = `
+    <option value="all" ${AppState.timeRange === 'all' ? 'selected' : ''}>Toàn thời gian</option>
+    <option value="month" ${AppState.timeRange === 'month' ? 'selected' : ''}>Tháng này (Tháng ${m}/${y})</option>
+    <option value="last_month" ${AppState.timeRange === 'last_month' ? 'selected' : ''}>Tháng trước (Tháng ${prevM}/${prevY})</option>
+    <option value="quarter" ${AppState.timeRange === 'quarter' ? 'selected' : ''}>Quý ${q}/${y}</option>
+    <option value="year" ${AppState.timeRange === 'year' ? 'selected' : ''}>Năm ${y}</option>
+  `;
+
+  select.onchange = (e) => {
+    AppState.timeRange = e.target.value;
+    updateKpiCards();
+    renderTransactionsTable();
+    updateChartsWithRealData();
+  };
+}
+
 function updateKpiCards() {
   const users = AppState.realUsers;
-  const tx = AppState.realTransactions;
+  const tx = getFilteredTransactions();
 
   const totalUsers = users.length;
   const lockedUsers = users.filter(u => u.status === "locked").length;
@@ -609,12 +674,13 @@ function renderTransactionsTable() {
   const tbody = document.getElementById("transactionsTableBody");
   if (!tbody) return;
 
-  if (AppState.realTransactions.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="text-muted text-center" style="padding: 2.5rem;">Chưa có giao dịch thật nào.</td></tr>`;
+  const txList = getFilteredTransactions();
+  if (txList.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" class="text-muted text-center" style="padding: 2.5rem;">Không có giao dịch nào trong khoảng thời gian đã chọn.</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = AppState.realTransactions.map(tx => {
+  tbody.innerHTML = txList.map(tx => {
     const catName = AppState.categoriesMap[tx.category_id] || (tx.type === 'expense' ? 'Ăn uống / Mua sắm' : 'Thu nhập');
     const merchantOrNote = tx.merchant_name || tx.note || "Giao dịch chi tiêu";
     const srcBadge = tx.source === 'receipt'
@@ -1413,6 +1479,8 @@ function setTheme(theme) {
 // ============================================================================
 
 function setupEventListeners() {
+  initTimeRangeSelector();
+
   document.getElementById("themeToggleBtn")?.addEventListener("click", () => {
     setTheme(AppState.theme === "dark" ? "light" : "dark");
   });
@@ -1466,6 +1534,13 @@ function setupEventListeners() {
       if (!adminList.includes(email.toLowerCase())) {
         adminList.push(email.toLowerCase());
         localStorage.setItem("nep_admin_emails", JSON.stringify(adminList));
+      }
+
+      // Nếu có nhập Service Role Key trong modal
+      const serviceKey = document.getElementById("loginServiceKey")?.value.trim();
+      if (serviceKey) {
+        AppState.config.supabaseServiceRoleKey = serviceKey;
+        localStorage.setItem("nep_service_role_key", serviceKey);
       }
 
       updateAuthHeaderUI();
@@ -1599,9 +1674,22 @@ function setupEventListeners() {
   document.getElementById("exportUsersCsvBtn")?.addEventListener("click", exportRealUsersToCsv);
 
   // Save Config
-  document.getElementById("saveSupabaseConfigBtn")?.addEventListener("click", () => {
-    showToast("Đã lưu cấu hình! Đang đồng bộ lại...", "info");
-    loadRealDataFromDatabase();
+  document.getElementById("saveSupabaseConfigBtn")?.addEventListener("click", async () => {
+    const url = document.getElementById("cfgSupabaseUrl")?.value.trim();
+    const serviceKey = document.getElementById("cfgSupabaseKey")?.value.trim();
+
+    if (url) AppState.config.supabaseUrl = url;
+    if (serviceKey !== undefined) {
+      AppState.config.supabaseServiceRoleKey = serviceKey;
+      if (serviceKey) {
+        localStorage.setItem("nep_service_role_key", serviceKey);
+      } else {
+        localStorage.removeItem("nep_service_role_key");
+      }
+    }
+
+    showToast("Đã lưu cấu hình Supabase! Đang đồng bộ lại...", "info");
+    await loadRealDataFromDatabase();
   });
 }
 
@@ -1687,6 +1775,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 2. Tải toàn bộ dữ liệu thật từ database Supabase
   await loadRealDataFromDatabase();
+
+  // 3. Tự động đồng bộ dữ liệu mới khi quay lại tab hoặc định kỳ mỗi 20s
+  setInterval(() => {
+    if (!document.hidden && !AppState.isLoading) {
+      loadRealDataFromDatabase();
+    }
+  }, 20000);
+
+  window.addEventListener("focus", () => {
+    if (!AppState.isLoading) {
+      loadRealDataFromDatabase();
+    }
+  });
 
   if (window.lucide) window.lucide.createIcons();
 });
