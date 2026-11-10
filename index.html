@@ -1082,12 +1082,49 @@
   </div>
 </div>
 
+<!-- ================= MODAL: CHỌN KHOẢNG THỜI GIAN TÙY CHỌN ================= -->
+<div class="modal-overlay" id="dateRangeModal" role="dialog" aria-modal="true">
+  <div class="modal-dialog" style="max-width: 440px;">
+    <div class="modal-header">
+      <div class="modal-title-wrapper">
+        <div class="kpi-icon-box bg-primary-soft text-primary">
+          <i data-lucide="calendar-range"></i>
+        </div>
+        <div>
+          <h3 class="modal-title">Tùy chọn khoảng thời gian</h3>
+          <p class="modal-subtitle">Lọc người dùng và giao dịch trong khoảng ngày bạn chọn.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" id="closeDateRangeModalBtn">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom: 1rem;">
+        <label class="form-label" for="customDateFrom">Từ ngày</label>
+        <input type="date" id="customDateFrom" class="form-input">
+      </div>
+      <div class="form-group" style="margin-bottom: 0.5rem;">
+        <label class="form-label" for="customDateTo">Đến ngày</label>
+        <input type="date" id="customDateTo" class="form-input">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelDateRangeBtn">Đóng</button>
+      <button class="btn btn-primary btn-icon-text" id="applyDateRangeBtn">
+        <i data-lucide="check"></i>
+        <span>Áp dụng lọc</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST NOTIFICATION CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- CẤU HÌNH TẬP TRUNG TỰ ĐỘNG TỪ LOCAL.PROPERTIES -->
-<script src="runtime-config.js"></script>
+<script src="runtime-config.js?v=2.2"></script>
 <!-- APP JAVASCRIPT -->
-<script src="app.js"></script>
+<script src="app.js?v=2.2"></script>
 </body>
 </html>

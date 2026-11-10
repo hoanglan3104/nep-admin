@@ -50,7 +50,9 @@ const AppState = {
   realTransactions: [], // Danh sách giao dịch thật từ database
   auditLogs: [],
   activeTab: "overview",
-  timeRange: "all",     // all, month, last_month, quarter, year
+  timeRange: "all",     // all, month, last_month, month:YYYY-MM, quarter:1..4, year:YYYY, custom
+  customDateFrom: null,
+  customDateTo: null,
   currentFilter: "all",
   searchQuery: "",
   sortBy: "created_desc",
@@ -378,101 +380,172 @@ function updateLoadingStatus(isLoading, message, isError = false) {
   }
 }
 
-function getFilteredTransactions() {
-  const tx = AppState.realTransactions || [];
-  if (AppState.timeRange === 'all') return tx;
+function isDateInSelectedRange(dateStr) {
+  if (!dateStr) return true;
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return true;
 
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth(); // 0-11
 
-  return tx.filter(t => {
-    const dStr = t.occurred_on || t.occurred_at || t.created_at;
-    if (!dStr) return true;
-    const d = new Date(dStr);
-    if (isNaN(d.getTime())) return true;
+  const tr = AppState.timeRange || 'all';
+  if (tr === 'all') return true;
 
-    if (AppState.timeRange === 'month') {
-      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+  if (tr === 'month') {
+    return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+  }
+  if (tr === 'last_month') {
+    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+    return d.getFullYear() === lastYear && d.getMonth() === lastMonth;
+  }
+  if (tr.startsWith('month:')) {
+    // Format: month:YYYY-MM
+    const parts = tr.split(/[:\-]/);
+    const targetY = parseInt(parts[1], 10);
+    const targetM = parseInt(parts[2], 10) - 1; // 0-indexed
+    return d.getFullYear() === targetY && d.getMonth() === targetM;
+  }
+  if (tr.startsWith('quarter')) {
+    let q = Math.floor(currentMonth / 3) + 1;
+    if (tr.includes(':')) {
+      q = parseInt(tr.split(':')[1], 10);
     }
-    if (AppState.timeRange === 'last_month') {
-      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-      const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-      return d.getFullYear() === lastYear && d.getMonth() === lastMonth;
+    const itemQ = Math.floor(d.getMonth() / 3) + 1;
+    return d.getFullYear() === currentYear && itemQ === q;
+  }
+  if (tr.startsWith('year')) {
+    let targetYear = currentYear;
+    if (tr.includes(':')) {
+      targetYear = parseInt(tr.split(':')[1], 10);
     }
-    if (AppState.timeRange === 'quarter') {
-      const q = Math.floor(currentMonth / 3);
-      const itemQ = Math.floor(d.getMonth() / 3);
-      return d.getFullYear() === currentYear && itemQ === q;
+    return d.getFullYear() === targetYear;
+  }
+  if (tr === 'custom') {
+    if (AppState.customDateFrom) {
+      const from = new Date(AppState.customDateFrom);
+      from.setHours(0, 0, 0, 0);
+      if (d < from) return false;
     }
-    if (AppState.timeRange === 'year') {
-      return d.getFullYear() === currentYear;
+    if (AppState.customDateTo) {
+      const to = new Date(AppState.customDateTo);
+      to.setHours(23, 59, 59, 999);
+      if (d > to) return false;
     }
     return true;
-  });
+  }
+  return true;
+}
+
+function getFilteredTransactions() {
+  const tx = AppState.realTransactions || [];
+  if (AppState.timeRange === 'all') return tx;
+  return tx.filter(t => isDateInSelectedRange(t.occurred_on || t.occurred_at || t.created_at));
 }
 
 function getFilteredUsers() {
   const users = AppState.realUsers || [];
   if (AppState.timeRange === 'all') return users;
-
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth(); // 0-11
-
-  return users.filter(u => {
-    if (!u.createdAt) return true;
-    const d = new Date(u.createdAt);
-    if (isNaN(d.getTime())) return true;
-
-    if (AppState.timeRange === 'month') {
-      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
-    }
-    if (AppState.timeRange === 'last_month') {
-      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-      const lastYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-      return d.getFullYear() === lastYear && d.getMonth() === lastMonth;
-    }
-    if (AppState.timeRange === 'quarter') {
-      const q = Math.floor(currentMonth / 3);
-      const itemQ = Math.floor(d.getMonth() / 3);
-      return d.getFullYear() === currentYear && itemQ === q;
-    }
-    if (AppState.timeRange === 'year') {
-      return d.getFullYear() === currentYear;
-    }
-    return true;
-  });
+  return users.filter(u => isDateInSelectedRange(u.createdAt));
 }
 
 function getTimeRangeLabel() {
+  if (AppState.timeRange === 'custom') {
+    if (AppState.customDateFrom && AppState.customDateTo) {
+      return `${formatDate(AppState.customDateFrom)} - ${formatDate(AppState.customDateTo)}`;
+    }
+    return "Khoảng thời gian tùy chọn";
+  }
   const select = document.getElementById("timeRangeSelect");
   if (select && select.selectedIndex >= 0) {
-    return select.options[select.selectedIndex].text;
+    return select.options[select.selectedIndex].text.replace(/\s*\(Hiện tại\)/, '');
   }
   return "Toàn thời gian";
+}
+
+function openDateRangeModal() {
+  const modal = document.getElementById("dateRangeModal");
+  if (!modal) return;
+  const fromInput = document.getElementById("customDateFrom");
+  const toInput = document.getElementById("customDateTo");
+
+  if (fromInput) {
+    fromInput.value = AppState.customDateFrom || new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  }
+  if (toInput) {
+    toInput.value = AppState.customDateTo || new Date().toISOString().slice(0, 10);
+  }
+
+  modal.classList.add("active");
+  if (window.lucide) window.lucide.createIcons();
 }
 
 function initTimeRangeSelector() {
   const select = document.getElementById("timeRangeSelect");
   if (!select) return;
   const now = new Date();
-  const m = now.getMonth() + 1;
-  const y = now.getFullYear();
-  const q = Math.ceil(m / 3);
-  const prevM = m === 1 ? 12 : m - 1;
-  const prevY = m === 1 ? y - 1 : y;
+  const curMonth = now.getMonth() + 1; // 1-12
+  const curYear = now.getFullYear();   // 2026
+  const prevM = curMonth === 1 ? 12 : curMonth - 1;
+  const prevY = curMonth === 1 ? curYear - 1 : curYear;
 
-  select.innerHTML = `
-    <option value="all" ${AppState.timeRange === 'all' ? 'selected' : ''}>Toàn thời gian</option>
-    <option value="month" ${AppState.timeRange === 'month' ? 'selected' : ''}>Tháng này (Tháng ${m}/${y})</option>
-    <option value="last_month" ${AppState.timeRange === 'last_month' ? 'selected' : ''}>Tháng trước (Tháng ${prevM}/${prevY})</option>
-    <option value="quarter" ${AppState.timeRange === 'quarter' ? 'selected' : ''}>Quý ${q}/${y}</option>
-    <option value="year" ${AppState.timeRange === 'year' ? 'selected' : ''}>Năm ${y}</option>
+  let html = '';
+  // 1. Phổ biến
+  html += `
+    <optgroup label="Tổng quan">
+      <option value="all" ${AppState.timeRange === 'all' ? 'selected' : ''}>Toàn thời gian (Tất cả)</option>
+      <option value="month" ${AppState.timeRange === 'month' ? 'selected' : ''}>Tháng này (Tháng ${curMonth}/${curYear})</option>
+      <option value="last_month" ${AppState.timeRange === 'last_month' ? 'selected' : ''}>Tháng trước (Tháng ${prevM}/${prevY})</option>
+    </optgroup>
   `;
 
+  // 2. Từng tháng trong năm hiện tại (Tháng 1 -> Tháng 12)
+  html += `<optgroup label="Tất cả các tháng (${curYear})">`;
+  for (let m = 12; m >= 1; m--) {
+    const val = `month:${curYear}-${String(m).padStart(2, '0')}`;
+    const isCur = m === curMonth ? ' (Hiện tại)' : '';
+    html += `<option value="${val}" ${AppState.timeRange === val ? 'selected' : ''}>Tháng ${m}/${curYear}${isCur}</option>`;
+  }
+  html += `</optgroup>`;
+
+  // 3. Các Quý
+  html += `
+    <optgroup label="Theo Quý (${curYear})">
+      <option value="quarter:1" ${AppState.timeRange === 'quarter:1' ? 'selected' : ''}>Quý 1/${curYear} (T1 - T3)</option>
+      <option value="quarter:2" ${AppState.timeRange === 'quarter:2' ? 'selected' : ''}>Quý 2/${curYear} (T4 - T6)</option>
+      <option value="quarter:3" ${AppState.timeRange === 'quarter:3' ? 'selected' : ''}>Quý 3/${curYear} (T7 - T9)</option>
+      <option value="quarter:4" ${AppState.timeRange === 'quarter:4' ? 'selected' : ''}>Quý 4/${curYear} (T10 - T12)</option>
+    </optgroup>
+  `;
+
+  // 4. Theo Năm
+  html += `
+    <optgroup label="Theo Năm">
+      <option value="year:${curYear}" ${AppState.timeRange === `year:${curYear}` ? 'selected' : ''}>Cả năm ${curYear}</option>
+      <option value="year:${curYear - 1}" ${AppState.timeRange === `year:${curYear - 1}` ? 'selected' : ''}>Cả năm ${curYear - 1}</option>
+    </optgroup>
+  `;
+
+  // 5. Tùy chọn khoảng ngày
+  const customLabel = (AppState.customDateFrom && AppState.customDateTo)
+    ? `Tùy chọn (${formatDate(AppState.customDateFrom)} - ${formatDate(AppState.customDateTo)})`
+    : `📅 Tùy chọn khoảng ngày...`;
+  html += `
+    <optgroup label="Tùy chỉnh thời gian">
+      <option value="custom" ${AppState.timeRange === 'custom' ? 'selected' : ''}>${customLabel}</option>
+    </optgroup>
+  `;
+
+  select.innerHTML = html;
+
   select.onchange = (e) => {
-    AppState.timeRange = e.target.value;
+    const val = e.target.value;
+    if (val === 'custom') {
+      openDateRangeModal();
+      return;
+    }
+    AppState.timeRange = val;
     const label = select.options[select.selectedIndex]?.text || "";
     showToast(`Đã lọc dữ liệu theo: ${label}`, "info");
     renderAllViews();
@@ -911,8 +984,22 @@ function updateChartsWithRealData() {
   const barColors = monthLabels.map((_, idx) => {
     if (AppState.timeRange === 'month' && idx === curM) return "#10b981"; // Xanh nổi bật
     if (AppState.timeRange === 'last_month' && idx === prevM) return "#f59e0b"; // Cam nổi bật
+    if (AppState.timeRange.startsWith('month:')) {
+      const parts = AppState.timeRange.split(/[:\-]/);
+      const targetM = parseInt(parts[2], 10) - 1;
+      if (idx === targetM) return "#10b981";
+    }
+    if (AppState.timeRange.startsWith('quarter:')) {
+      const q = parseInt(AppState.timeRange.split(':')[1], 10);
+      if (Math.floor(idx / 3) + 1 === q) return "#3b82f6";
+    }
     if (AppState.timeRange === 'quarter' && Math.floor(idx / 3) === Math.floor(curM / 3)) return "#3b82f6";
-    if (AppState.timeRange === 'all') return "#3b82f6";
+    if (AppState.timeRange.startsWith('year') || AppState.timeRange === 'all') return "#3b82f6";
+    if (AppState.timeRange === 'custom' && AppState.customDateFrom && AppState.customDateTo) {
+      const fM = new Date(AppState.customDateFrom).getMonth();
+      const tM = new Date(AppState.customDateTo).getMonth();
+      if (idx >= Math.min(fM, tM) && idx <= Math.max(fM, tM)) return "#10b981";
+    }
     return "rgba(148, 163, 184, 0.25)";
   });
 
@@ -1721,6 +1808,35 @@ function setupEventListeners() {
   document.getElementById("cancelUnbanModalBtn")?.addEventListener("click", closeAllModals);
   document.getElementById("closeRoleModalBtn")?.addEventListener("click", closeAllModals);
   document.getElementById("cancelRoleModalBtn")?.addEventListener("click", closeAllModals);
+  document.getElementById("closeDateRangeModalBtn")?.addEventListener("click", closeAllModals);
+  document.getElementById("cancelDateRangeBtn")?.addEventListener("click", closeAllModals);
+
+  // Apply Custom Date Range
+  document.getElementById("applyDateRangeBtn")?.addEventListener("click", () => {
+    const fromVal = document.getElementById("customDateFrom")?.value;
+    const toVal = document.getElementById("customDateTo")?.value;
+    if (!fromVal || !toVal) {
+      showToast("Vui lòng chọn cả ngày bắt đầu và ngày kết thúc", "warning");
+      return;
+    }
+    if (new Date(fromVal) > new Date(toVal)) {
+      showToast("Ngày bắt đầu không được lớn hơn ngày kết thúc", "warning");
+      return;
+    }
+
+    AppState.timeRange = "custom";
+    AppState.customDateFrom = fromVal;
+    AppState.customDateTo = toVal;
+    initTimeRangeSelector();
+    closeAllModals();
+
+    const rangeLabel = `${formatDate(fromVal)} - ${formatDate(toVal)}`;
+    showToast(`Đã áp dụng bộ lọc từ: ${rangeLabel}`, "success");
+    renderAllViews();
+    if (AppState.activeTab === "analytics" || AppState.activeTab === "ai-monitoring") {
+      renderSecondaryCharts();
+    }
+  });
 
   document.getElementById("confirmBanBtn")?.addEventListener("click", confirmBanUser);
   document.getElementById("confirmUnbanBtn")?.addEventListener("click", confirmUnbanUser);
